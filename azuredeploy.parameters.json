@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "West US"
+    },
+    "username": {
+      "value": "cloudbreak"
+    },
+    "password": {
+      "value": "Cbd2016!"
+    },
+    "newStorageAccountName": {
+      "value": "cbd-test-storageaccount"
+    },
+    "vmSize": {
+      "value": "Standard_D1"
+    },
+    "dnsNameForPublicIP": {
+      "value": "uniquednsname"
+    },
+    "fileUris": {
+      "value": "https://gist.githubusercontent.com/lalyos/011dd1d7c12672fd7828/raw/install-cbd.sh"
+    },
+    "commandToExecute": {
+      "value": "./install-cbd.sh"
+    }
+  }
+}
