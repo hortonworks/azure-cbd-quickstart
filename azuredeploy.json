@@ -237,5 +237,11 @@
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+     "publicIp": {
+       "type": "string",
+       "value": "[reference(variables('publicIPAddressName')).ipAddress]"
+     }
+   }
 }
