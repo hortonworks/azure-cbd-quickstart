@@ -28,14 +28,10 @@
     "vmSize": {
       "type": "string",
       "allowedValues": [
-        "Standard_A1",
         "Standard_A2",
         "Standard_A3",
-        "Standard_A4",
         "Standard_D1",
         "Standard_D2",
-        "Standard_D3",
-        "Standard_D4"
       ],
       "metadata": {
         "description": "Size of vm"
@@ -54,6 +50,7 @@
     },
     "username": {
       "type": "string",
+      "defaultValue": "cloudbreak",
       "metadata": {
         "description": "Username for the Virtual Machine."
       }
@@ -66,12 +63,14 @@
     },
     "newStorageAccountName": {
       "type": "string",
+      "defaultValue": "cbdeployerstorageaccount",
       "metadata": {
         "description": "Unique DNS Name for the Storage Account where the Virtual Machine's disks will be placed."
       }
     },
     "dnsNameForPublicIP": {
       "type": "string",
+      "defaultValue": "cbddnsname",
       "metadata": {
         "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
       }
