@@ -4,7 +4,7 @@
   "parameters": {
     "cbdVersion": {
       "value": "1.1.0"
-    }
+    },
     "location": {
       "value": "West Europe"
     },
@@ -13,15 +13,6 @@
     },
     "password": {
       "value": "Cbd2016!"
-    },
-    "newStorageAccountName": {
-      "value": "cbdteststorageaccount"
-    },
-    "vmSize": {
-      "value": "Standard_D1"
-    },
-    "dnsNameForPublicIP": {
-      "value": "uniquednsname"
     }
   }
 }
