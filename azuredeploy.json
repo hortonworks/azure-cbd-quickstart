@@ -75,24 +75,11 @@
       "metadata": {
         "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
       }
-    },
-    "fileUris": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "The uri list of files. Split by a space."
-      }
-    },
-    "commandToExecute": {
-      "type": "string",
-      "metadata": {
-        "description": "The command to execute."
-      }
     }
   },
   "variables": {
-    "fileUris": "https://gist.githubusercontent.com/lalyos/011dd1d7c12672fd7828/raw/install-cbd.sh",
-    "commandToExecute": "[concat('./install-cbd.sh ', parameters('cbdVersion'))]"
+    "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/master/install-cbd.sh",
+    "commandToExecute": "[concat('CBD_VERSION=', parameters('cbdVersion'), ' ./install-cbd.sh ')]"
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
     "apiVersion": "2015-05-01-preview",
@@ -255,8 +242,8 @@
         "type": "CustomScriptForLinux",
         "typeHandlerVersion": "1.3",
         "settings": {
-          "fileUris": "[split(parameters('fileUris'), ' ')]",
-          "commandToExecute": "[parameters('commandToExecute')]"
+          "fileUris": "[split(variables('fileUris'), ' ')]",
+          "commandToExecute": "[variables('commandToExecute')]"
         }
       }
     }

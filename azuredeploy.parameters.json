@@ -19,12 +19,6 @@
     },
     "dnsNameForPublicIP": {
       "value": "uniquednsname"
-    },
-    "fileUris": {
-      "value": "https://gist.githubusercontent.com/lalyos/011dd1d7c12672fd7828/raw/install-cbd.sh"
-    },
-    "commandToExecute": {
-      "value": "./install-cbd.sh"
     }
   }
 }
