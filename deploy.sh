@@ -27,6 +27,12 @@ destroy() {
   azure group delete $groupName -q
 }
 
+log() {
+    # azure group log show  cbd-rm-test --json| jq '.[]|[.resourceUri,.eventName,.status]' -c| sed 's:/subscriptions/947dafa0-8a1d-4ac9-909b-c71a0fa03ea6/resourcegroups/cbd-rm-test:cbd-rm-test:'
+    azure group deployment operation list cbd-rm-test cbd-rm-weekend --json| jq '.[].properties|[.targetResource.resourceType,.provisioningState,.statusCode]' -c
+}
+
+
 main() {
   deploymentName=cbd-rm-weekend
   groupName="cbd-rm-test-2"
