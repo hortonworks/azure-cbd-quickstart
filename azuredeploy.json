@@ -87,11 +87,7 @@
     "virtualNetworkName": "[concat(variables('scenarioPrefix'),'Vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
-    "userData": "[concat('#!/bin/bash
-set -x
-
-touch /tmp/user-data-run
-echo ok > /tmp/user-data.log"
+    "userData": "IyEvYmluL2Jhc2gKc2V0IC14Cgp0b3VjaCAvdG1wL3VzZXItZGF0YS1ydW4KZWNobyBvayA+IC90bXAvdXNlci1kYXRhLmxvZwo="
   },
   "resources": [
     {
@@ -179,7 +175,7 @@ echo ok > /tmp/user-data.log"
           "computerName": "[variables('vmName')]",
           "adminUsername": "[parameters('username')]",
           "adminPassword": "[parameters('password')]",
-          "customData": "[base64(variables('userData'))]"
+          "customData": "[variables('userData')]"
         },
         "storageProfile": {
           "imageReference": {
