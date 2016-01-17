@@ -62,23 +62,10 @@
       "metadata": {
         "description": "Password for the Virtual Machine."
       }
-    },
-    "newStorageAccountName": {
-      "type": "string",
-      "defaultValue": "cbdeployerstorageaccount",
-      "metadata": {
-        "description": "Unique DNS Name for the Storage Account where the Virtual Machine's disks will be placed."
-      }
-    },
-    "dnsNameForPublicIP": {
-      "type": "string",
-      "defaultValue": "cbddnsname",
-      "metadata": {
-        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
-      }
     }
   },
   "variables": {
+    "newStorageAccountName": "[concat('cbdstorage', uniqueString(resourceGroup().id))]",
     "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/master/install-cbd.sh",
     "commandToExecute": "./install-cbd.sh",
     "extensionName": "CustomScript",
@@ -104,7 +91,7 @@
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[parameters('newStorageAccountName')]",
+      "name": "[variables('newStorageAccountName')]",
       "apiVersion": "[variables('apiVersion')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -119,7 +106,7 @@
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsNameForPublicIP')]"
+          "domainNameLabel": "[concat('dnsname', uniqueString(resourceGroup().id))]"
         }
       }
     },
@@ -176,7 +163,7 @@
       "name": "[variables('vmName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', parameters('newStorageAccountName'))]",
+        "[concat('Microsoft.Storage/storageAccounts/', variables('newStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
       "properties": {
@@ -199,7 +186,7 @@
           "osDisk": {
             "name": "osdisk1",
             "vhd": {
-              "uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
+              "uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
