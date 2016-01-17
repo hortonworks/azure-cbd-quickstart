@@ -15,7 +15,7 @@ debug() {
 createGroup() {
   debug "creating resource group: ${groupName} ..."
   azure config mode arm
-  azure group create -n "${groupName}" -l "${region}"
+  azure group create -n "${groupName}" -l "${region}" --tags "Owner=$USER"
 }
 
 deploy() {
