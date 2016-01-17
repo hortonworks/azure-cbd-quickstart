@@ -80,7 +80,7 @@
   },
   "variables": {
     "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/master/install-cbd.sh",
-    "commandToExecute": "[concat('CBD_VERSION=', parameters('cbdVersion'), ' ./install-cbd.sh ')]",
+    "commandToExecute": "./install-cbd.sh",
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
     "apiVersion": "2015-05-01-preview",
