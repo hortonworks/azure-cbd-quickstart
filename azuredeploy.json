@@ -81,7 +81,7 @@
   },
   "variables": {
     "extensionName": "CustomScript",
-    "scenarioPrefix": "customscriptLinux",
+    "scenarioPrefix": "cbdeployer",
     "apiVersion": "2015-05-01-preview",
     "imagePublisher": "OpenLogic",
     "imageOffer": "CentOS",
