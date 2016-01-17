@@ -4,6 +4,7 @@
   "parameters": {
     "location": {
       "type": "string",
+      "defaultValue": "West US",
       "metadata": {
         "description": "The location where the Virtual Machine will be deployed."
       },
@@ -27,6 +28,7 @@
     },
     "vmSize": {
       "type": "string",
+      "defaultValue": "Standard_A2",
       "allowedValues": [
         "Standard_A2",
         "Standard_A3",
