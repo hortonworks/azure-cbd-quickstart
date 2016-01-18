@@ -25,7 +25,8 @@ install_cbd() {
     mkdir /var/lib/cloudbreak-deployment
     cd $_
     echo export PUBLIC_IP=$(curl ipecho.net/plain) > Profile
-    cbd init
+    cbd generate
+    #cbd pull-parallel
 }
 
 relocate_docker() {
