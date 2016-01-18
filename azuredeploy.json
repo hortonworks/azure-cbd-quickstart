@@ -87,7 +87,7 @@
     "virtualNetworkName": "[concat(variables('scenarioPrefix'),'Vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
-    "userData": "IyEvYmluL2Jhc2gKc2V0IC14Cgp0b3VjaCAvdG1wL3VzZXItZGF0YS1ydW4KZWNobyBvayA+IC90bXAvdXNlci1kYXRhLmxvZwo="
+    "userData": "[base64(concat('CBD_VERSION=',parameters('cbdVersion')))]"
   },
   "resources": [
     {
