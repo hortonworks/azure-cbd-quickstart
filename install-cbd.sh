@@ -26,7 +26,9 @@ install_cbd() {
     cd $_
     echo export PUBLIC_IP=$(curl ipecho.net/plain) > Profile
     cbd generate
-    #cbd pull-parallel
+
+    cbd pull-parallel
+    cbd start
 }
 
 relocate_docker() {
