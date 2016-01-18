@@ -29,9 +29,14 @@ destroy() {
 
 log() {
     # azure group log show  cbd-rm-test --json| jq '.[]|[.resourceUri,.eventName,.status]' -c| sed 's:/subscriptions/947dafa0-8a1d-4ac9-909b-c71a0fa03ea6/resourcegroups/cbd-rm-test:cbd-rm-test:'
-    azure group deployment operation list cbd-rm-test cbd-rm-weekend --json| jq '.[].properties|[.targetResource.resourceType,.provisioningState,.statusCode]' -c
+    azure group deployment operation list  "${groupName}" "${deploymentName}" --json| jq '.[].properties|[.targetResource.resourceType,.provisioningState,.statusCode]' -c
 }
 
+deploy_rm(){
+    declare groupName=${1:? groupName required}
+    azure group create  -l westeurope -n $groupName
+    azure group deployment create  -f azuredeploy.json -e azuredeploy.parameters.json -g $groupName -n vasardeploy
+}
 
 main() {
   deploymentName=cbd-rm-weekend
