@@ -216,7 +216,11 @@
         "type": "DockerExtension",
         "typeHandlerVersion": "1.1",
         "autoUpgradeMinorVersion": true,
-        "settings": {},
+        "settings": {
+            "docker":{
+                "options": ["--storage-driver=overlay", "--graph=/mnt/resource/docker/"]
+            }
+        },
         "protectedSettings": {}
       }
     },

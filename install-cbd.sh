@@ -38,8 +38,8 @@ relocate_docker() {
 
 main() {
     yum install -y unzip
-    relocate_docker
     check_custom_data
+    #relocate_docker
     install_cbd
 }
 
