@@ -4,7 +4,7 @@ exec > >(tee "/tmp/${BASH_SOURCE}.log") 2>&1
 set -x
 
 check_custom_data() {
-  CDATA_FILE=${CDATA_FILE}
+  CDATA_FILE=/var/lib/waagent/CustomData
   if [[ -e $CDATA_FILE ]]; then
     # if it hash shebang, run it
     base64 -d $CDATA_FILE > ${CDATA_FILE}.txt
