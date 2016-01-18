@@ -230,7 +230,8 @@
       "apiVersion": "[variables('apiVersion')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', 'cbdeployerVM','DockerExtension')]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
