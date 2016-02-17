@@ -5,11 +5,11 @@ into a storage account. Our experience shows that it takes about 30-60 minutes u
 For Azure we have an alternative approach:
 - start from official CentOS, so no image copy is needed
 - use [Docker VM Extension](https://github.com/Azure/azure-docker-extension) to install Docker
-- use [CustomScript Extension](https://github.com/Azure/azure-linux-extensions/tree/master/CustomScript) to install Cloudbreak Deployer (cbd)
+- use [CustomScript Extension](https://github.com/Azure/azure-linux-extensions/tree/ubuntu/CustomScript) to install Cloudbreak Deployer (cbd)
 
 ## Deploy via Azure web UI
 
-Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsequenceiq%2Fazure-cbd-quickstart%2Fmaster%2Fazuredeploy.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
+Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsequenceiq%2Fazure-cbd-quickstart%2Fubuntu%2Fazuredeploy.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
 
 ## Deeploy via azure CLI
 
@@ -21,13 +21,13 @@ First create an empty resource group:
 
 Download a sample parameter json:
 ```
-curl -LO https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/master/azuredeploy.parameters.json
+curl -LO https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/ubuntu/azuredeploy.parameters.json
 ```
 
 After editing it, you can deploy by:
 ```
   azure group deployment create \
-    --template-uri https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/master/azuredeploy.json \
+    --template-uri https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/ubuntu/azuredeploy.json \
     -e azuredeploy.parameters.json \
     -g cbdgroup \
     -n cbddeployment
