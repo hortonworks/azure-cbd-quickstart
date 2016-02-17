@@ -40,7 +40,7 @@ relocate_docker() {
 }
 
 main() {
-    yum install -y unzip
+    yum install -y unzip || apt-get install -y unzip
     check_custom_data
     #relocate_docker
     install_cbd
