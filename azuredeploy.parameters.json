@@ -13,6 +13,9 @@
     },
     "password": {
       "value": "Cbd2016!"
+    },
+    "shellScript": {
+      "value": ""
     }
   }
 }
