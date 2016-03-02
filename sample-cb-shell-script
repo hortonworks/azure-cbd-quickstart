@@ -1,0 +1,14 @@
+credential create --AZURE --name my-azure-credential --subscriptionId [subsciption-id] --tenantId [tenant-id] --appId [app-id] --password [app-password] --sshKeyUrl [public-key-url]
+network create --AZURE --name my-azure-network --subnet "10.0.0.0/16" --addressPrefix "10.0.0.0/16"
+credential select --name my-azure-credential
+blueprint select --name hdp-small-default
+network select --name my-azure-network
+securitygroup select --name all-services-port
+instancegroup configure --instanceGroup cbgateway --nodecount 1 --templateName minviable-azure
+instancegroup configure --instanceGroup host_group_client_1 --nodecount 1 --templateName minviable-azure
+instancegroup configure --instanceGroup host_group_slave_1 --nodecount 6 --templateName minviable-azure
+instancegroup configure --instanceGroup host_group_master_3 --nodecount 1 --templateName minviable-azure
+instancegroup configure --instanceGroup host_group_master_2 --nodecount 1 --templateName minviable-azure
+instancegroup configure --instanceGroup host_group_master_1 --nodecount 1 --templateName minviable-azure
+stack create --name my-azure-stack --region [region]
+cluster create 

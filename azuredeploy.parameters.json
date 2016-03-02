@@ -13,6 +13,9 @@
     },
     "password": {
       "value": "Cbd2016!"
+    },
+    "cbShellScript": {
+      "value": "[base64(stack list\nblueprint list)]"
     }
   }
 }

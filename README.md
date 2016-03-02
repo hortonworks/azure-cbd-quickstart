@@ -13,23 +13,31 @@ Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/htt
 
 ## Deeploy via azure CLI
 
-First create an empty resource group:
+CLI tool requires some parameter to run properly:
+
+ * SSH_USERNAME: User name on the running instance
+ * SSH_PASSWORD: Password of the user
+ * ARM_DEPLOYMENT_NAME: Name of the deployment
+ * ARM_LOCATION: Name of the target location - **important: not the Display Name** -, for details call `azure location list`
+ * ARM_GROUP_NAME: Name of resource group
+ 
 ```
-  azure config mode arm
-  azure group create -n cbdgroup -l westeurope --tags "Owner=$USER"
+SSH_USERNAME=$SSH_USERNAME \
+SSH_PASSWORD=$SSH_PASSWORD \
+ARM_DEPLOYMENT_NAME=$ARM_DEPLOYMENT_NAME \
+ARM_LOCATION=$ARM_LOCATION \
+ARM_GROUP_NAME=$ARM_GROUP_NAME \
+./deploy.sh
 ```
 
-Download a sample parameter json:
-```
-curl -LO https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/master/azuredeploy.parameters.json
-```
+There are some optional parameters:
 
-After editing it, you can deploy by:
-```
-  azure group deployment create \
-    --template-uri https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/master/azuredeploy.json \
-    -e azuredeploy.parameters.json \
-    -g cbdgroup \
-    -n cbddeployment
-
-```
+ * ARM_USERNAME: If login required, the username of the Azure user (default empty)
+ * ARM_PASSWORD: If login required, the password of the Azure user (default empty)
+ * CB_SHELL_FILE: Cloudbreak shell command file to execute on the new deployment (default empty)
+ * CBD_VERSION: Version of Cloudbreak (default 1.1.0)
+  * You should find a sample Cloudbreak shell command file called `sample-cb-shell-script`. Just replace parameters in `credential create` and `stack create` commands and you are done.
+ * DEBUG: Chatty run
+ * TRACE: Enable debugging mode
+ 
+To destroy resource group please execute `ARM_GROUP_NAME_WHAT_I_REALLY_WANT_TO_DELETE=name ./destroy.sh` command.
