@@ -1,5 +1,14 @@
 #!/bin/bash
 
+: ${CBD_VERSION:="1.1.0"}
+
+: ${SSH_USERNAME:?SSH user name required}
+: ${SSH_PASSWORD:?SSH user password required}
+
+: ${ARM_DEPLOYMENT_NAME:?Deployment name required}
+: ${ARM_LOCATION:?Deployment location required}
+: ${ARM_GROUP_NAME:?Resource group name required}
+
 set -eo pipefail
 if [[ "$TRACE" ]]; then
     : ${START_TIME:=$(date +%s)}
@@ -12,39 +21,56 @@ debug() {
   [[ "$DEBUG" ]] && echo "-----> $*" 1>&2
 }
 
-createGroup() {
-  debug "creating resource group: ${groupName} ..."
-  azure config mode arm
-  azure group create -n "${groupName}" -l "${region}" --tags "Owner=$USER"
+azure-login() {
+    if [[ "$ARM_USERNAME" ]] && [[ "$ARM_PASSWORD" ]]; then
+        azure login --username $ARM_USERNAME --password $ARM_PASSWORD
+    fi
+    azure config mode arm
+}
+
+create-group() {
+  debug "creating resource group: ${ARM_GROUP_NAME} ..."
+  azure group create -n "${ARM_GROUP_NAME}" -l "${ARM_LOCATION}" --tags "Owner=$USER"
+}
+
+generate-template() {
+    [[ "$CB_SHELL_FILE" ]] && [[ ! -f $CB_SHELL_FILE ]] && echo "Shell command file not found!" && exit 1
+    debug "Convert location $ARM_LOCATION id to name"
+    local locations=$(azure location list --json | tr -d "\t\n")
+    local location_name=$(echo "$locations" | sed -r "s/(.*)$ARM_LOCATION\",\s+\"displayName\":\s+\"([^\"]+)(.*$)/\2/")
+    [[ ! "$location_name" ]] || [[ "$locations" = "$location_name" ]] && echo "Location $ARM_LOCATION is invalid!" && exit 1
+
+    debug "generating template to azuredeploy.custom.parameters.json file ..."
+    cat azuredeploy.parameters.json | tr -d " \t\n" > azuredeploy.custom.parameters.json
+	_replace-json-value cbdVersion $CBD_VERSION
+	_replace-json-value location "$location_name"
+	_replace-json-value username $SSH_USERNAME
+	_replace-json-value password "$SSH_PASSWORD"
+	if [[ -f $CB_SHELL_FILE ]]; then
+        _replace-json-value cbShellScript "$(base64 $CB_SHELL_FILE)"
+	else
+        _replace-json-value cbShellScript ""
+    fi
+    debug "$(<azuredeploy.custom.parameters.json)"
+}
+
+_replace-json-value() {
+    sed -ri "s/($1\":\{\"value\":\")([^\"]+)(.*$)/\1$2\3/" azuredeploy.custom.parameters.json
 }
 
 deploy() {
-  debug "deploy ..."
-  azure group deployment create -f azuredeploy.json -e azuredeploy.parameters.json -g "${groupName}" -n "${deploymentName}"
-}
-
-destroy() {
-  azure group delete $groupName -q
-}
-
-log() {
-    # azure group log show  cbd-rm-test --json| jq '.[]|[.resourceUri,.eventName,.status]' -c| sed 's:/subscriptions/947dafa0-8a1d-4ac9-909b-c71a0fa03ea6/resourcegroups/cbd-rm-test:cbd-rm-test:'
-    azure group deployment operation list  "${groupName}" "${deploymentName}" --json| jq '.[].properties|[.targetResource.resourceType,.provisioningState,.statusCode]' -c
-}
-
-deploy_rm(){
-    declare groupName=${1:? groupName required}
-    azure group create  -l westeurope -n $groupName
-    azure group deployment create  -f azuredeploy.json -e azuredeploy.parameters.json -g $groupName -n vasardeploy
+  debug "deploy ${ARM_DEPLOYMENT_NAME} ..."
+  azure group deployment create -f azuredeploy.json -e azuredeploy.custom.parameters.json -g "${ARM_GROUP_NAME}" -n "${ARM_DEPLOYMENT_NAME}"
 }
 
 main() {
-  deploymentName=cbd-rm-weekend
-  groupName="cbd-rm-test-2"
-  region="westeurope"
-  #createGroup
-  deploy
-  azure group log show -l -v "${groupName}"
+    azure-login
+    create-group
+    generate-template
+    deploy
 }
 
-[[ "$0" == "$BASH_SOURCE" ]] && main "$@" || true
+if [[ "$0" == "$BASH_SOURCE" ]]; then
+    main "$@"
+    debug "deployment done, thank you for choosing us."
+fi

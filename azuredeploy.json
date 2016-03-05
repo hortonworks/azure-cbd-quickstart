@@ -61,6 +61,13 @@
       "metadata": {
         "description": "Password for the Virtual Machine."
       }
+    },
+    "cbShellScript" : {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+            "description": "Base64 reprezentation of a custom Cloudbreak shell script (>= 1.2.0)"
+        }
     }
   },
   "variables": {
@@ -86,7 +93,7 @@
     "virtualNetworkName": "[concat(variables('scenarioPrefix'),'Vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
-    "userData": "[base64(concat('CBD_VERSION=',parameters('cbdVersion')))]"
+    "userData": "[base64(concat('CBD_VERSION=',parameters('cbdVersion'),' && SHELL_SCRIPT=\"',parameters('cbShellScript'),'\"'))]"
   },
   "resources": [
     {
