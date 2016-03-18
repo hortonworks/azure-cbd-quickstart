@@ -39,10 +39,10 @@
     },
     "cbdVersion" : {
       "type": "string",
-      "defaultValue": "1.2.0-rc0",
+      "defaultValue": "1.2.0",
       "allowedValues": [
         "snapshot",
-        "1.2.0-rc0",
+        "1.2.0",
         "1.1.0"
       ],
       "metadata": {
