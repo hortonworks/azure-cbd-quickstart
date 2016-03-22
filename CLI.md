@@ -22,7 +22,7 @@ There are some optional parameters:
  * ARM_USERNAME: If login required, the username of the Azure user (default empty)
  * ARM_PASSWORD: If login required, the password of the Azure user (default empty)
  * CB_SHELL_FILE: Cloudbreak shell command file to execute on the new deployment (default empty)
- * CBD_VERSION: Version of Cloudbreak (default 1.1.0)
+ * CBD_VERSION: Version of Cloudbreak (default 1.2.0)
   * You should find a sample Cloudbreak shell command file called `sample-cb-shell-script`. Just replace parameters in `credential create` and `stack create` commands and you are done.
  * DEBUG: Chatty run
  * TRACE: Enable debugging mode
