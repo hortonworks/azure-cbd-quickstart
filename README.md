@@ -1,3 +1,4 @@
+[Release 1.2.1](https://github.com/sequenceiq/azure-cbd-quickstart/tree/1.2.1)
 [Release 1.2.0](https://github.com/sequenceiq/azure-cbd-quickstart/tree/1.2.0)
 
 This repo helps to automate the deployment of Cloudbreak Deployer. On other cloud providers you can create “public images”, while on Azure
