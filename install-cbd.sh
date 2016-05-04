@@ -3,7 +3,7 @@
 exec > >(tee "/tmp/${BASH_SOURCE}.log") 2>&1
 set -x
 
-: ${CBD_VERSION:="1.2.0"}
+: ${CBD_VERSION:="1.2.2"}
 : ${CBD_DIR:="/var/lib/cloudbreak-deployment"}
 : ${WAIT_FOR_CB_RETRY:=50}
 
@@ -38,7 +38,7 @@ install_cbd() {
 execute_cb_shell_script() {
     if [[ -n "$SHELL_SCRIPT" ]]; then
         wait_for_cloudbreak
-        
+
         cd $CBD_DIR
         echo "$(base64 -d <(echo "$SHELL_SCRIPT"))" | cbd util cloudbreak-shell-quiet
     fi
