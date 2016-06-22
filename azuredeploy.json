@@ -254,7 +254,7 @@
   "outputs": {
      "publicIp": {
        "type": "string",
-       "value": "[reference(variables('publicIPAddressName')).ipAddress]"
+       "value": "[resourceId(concat('Microsoft.Network','/','publicIPAddresses'),variables('publicIPAddressName'))]"
      }
    }
 }
