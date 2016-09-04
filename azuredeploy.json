@@ -72,11 +72,11 @@
   },
   "variables": {
     "newStorageAccountName": "[concat('cbdstorage', uniqueString(resourceGroup().id))]",
-    "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/1.3.0/install-cbd.sh",
+    "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/azure-cloud/install-cbd.sh",
     "commandToExecute": "./install-cbd.sh",
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
-    "apiVersion": "2015-05-01-preview",
+    "apiVersion": "2015-06-15",
     "imagePublisher": "OpenLogic",
     "imageOffer": "CentOS",
     "ubuntuOSVersion": "7.1",
@@ -93,7 +93,7 @@
     "virtualNetworkName": "[concat(variables('scenarioPrefix'),'Vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
-    "userData": "[base64(concat('CBD_VERSION=',parameters('cbdVersion'),' && SHELL_SCRIPT=\"',parameters('cbShellScript'),'\"'))]"
+    "userData": "[concat('#!/bin/bash\n\ntouch /tmp/cb-custom-data-default.txt\n','\necho \"export CBD_VERSION=',parameters('cbdVersion'),'\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_RESOURCE_GROUP_ID=',resourceGroup().id,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_VIRTUAL_NETWORK_ID=',variables('virtualNetworkName'),'\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBNET_ID=',variables('subnetName'),'\" >> /tmp/.cbdprofile','\necho export SHELL_SCRIPT=\"',parameters('cbShellScript'),'\" >> /tmp/.cbdprofile\n')]"
   },
   "resources": [
     {
@@ -181,7 +181,7 @@
           "computerName": "[variables('vmName')]",
           "adminUsername": "[parameters('username')]",
           "adminPassword": "[parameters('password')]",
-          "customData": "[variables('userData')]"
+          "customData": "[base64(variables('userData'))]"
         },
         "storageProfile": {
           "imageReference": {

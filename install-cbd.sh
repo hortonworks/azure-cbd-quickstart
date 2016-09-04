@@ -25,31 +25,31 @@ check_custom_data() {
 }
 
 install_cbd() {
+    set +x
     curl -Ls s3.amazonaws.com/public-repo-1.hortonworks.com/HDP/cloudbreak/cloudbreak-deployer_${CBD_VERSION}_$(uname)_x86_64.tgz | tar -xz -C /bin cbd
     mkdir $CBD_DIR
     cd $_
-    echo export PUBLIC_IP=$(curl ifconfig.co) > Profile
-    cbd generate
 
+    CREDENTIAL_NAME=defaultcredential
+
+    echo export PUBLIC_IP=$(curl ifconfig.co) > Profile
+    echo "export AZURE_RESOURCE_GROUP_ID=$AZURE_RESOURCE_GROUP_ID" >> Profile
+    echo "export AZURE_VIRTUAL_NETWORK_ID=$AZURE_VIRTUAL_NETWORK_ID" >> Profile
+    echo "export AZURE_SUBNET_ID=$AZURE_SUBNET_ID" >> Profile
+    echo "export AZURE_DEFAULT_CREDENTIAL=$CREDENTIAL_NAME" >> Profile
+
+    cbd generate
     cbd pull-parallel
-    cbd start
+    cbd start-wait
+    echo "credential create --AZURE --name $CREDENTIAL_NAME --sshKeyString '$SSH_KEY_STRING' --subscriptionId $AZURE_SUBSCRIPTION_ID --tenantId $AZURE_TENANT_ID --appId $AZURE_APP_ID --password $AZURE_PASSWORD" >> create-default-azure-role.sh
+    cbd util cloudbreak-shell-quiet < create-default-azure-role.sh
 }
 
 execute_cb_shell_script() {
     if [[ -n "$SHELL_SCRIPT" ]]; then
-        wait_for_cloudbreak
-
         cd $CBD_DIR
         echo "$(base64 -d <(echo "$SHELL_SCRIPT"))" | cbd util cloudbreak-shell-quiet
     fi
-}
-
-wait_for_cloudbreak() {
-    local ip=$(docker inspect -f "{{.NetworkSettings.IPAddress}}" cbreak_cloudbreak_1)
-    while [[ -n "$ip" ]] && [[ -z "$(curl -fs $ip:8080/info)" ]] && [[ $WAIT_FOR_CB_RETRY -ne 0 ]] ; do
-        sleep 5
-        WAIT_FOR_CB_RETRY=$((WAIT_FOR_CB_RETRY-1))
-    done
 }
 
 relocate_docker() {
@@ -61,7 +61,7 @@ relocate_docker() {
 }
 
 main() {
-    yum install -y unzip
+    apt-get install -y unzip
     check_custom_data
     #relocate_docker
     install_cbd
