@@ -2,30 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
-      "type": "string",
-      "defaultValue": "West US",
-      "metadata": {
-        "description": "The location where the Virtual Machine will be deployed."
-      },
-      "allowedValues": [
-        "Australia East",
-        "Australia Southeast",
-        "Brazil South",
-        "Central US",
-        "East Asia",
-        "East US",
-        "East US 2",
-        "Japan East",
-        "Japan West",
-        "North Central US",
-        "North Europe",
-        "South Central US",
-        "Southeast Asia",
-        "West Europe",
-        "West US"
-      ]
-    },
     "vmSize": {
       "type": "string",
       "defaultValue": "Standard_D1",
@@ -35,18 +11,6 @@
       ],
       "metadata": {
         "description": "Size of vm"
-      }
-    },
-    "cbdVersion" : {
-      "type": "string",
-      "defaultValue": "1.3.0",
-      "allowedValues": [
-        "snapshot",
-        "1.3.0",
-        "1.1.0"
-      ],
-      "metadata": {
-        "description": "Release version of Cloudbreak Deployer"
       }
     },
     "username": {
@@ -62,12 +26,12 @@
         "description": "Password for the Virtual Machine."
       }
     },
-    "cbShellScript" : {
-        "type": "string",
-        "defaultValue": "",
-        "metadata": {
-            "description": "Base64 reprezentation of a custom Cloudbreak shell script"
-        }
+    "sshKey": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "SSH key for cloudbreak"
+      }
     }
   },
   "variables": {
@@ -77,9 +41,9 @@
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
     "apiVersion": "2015-06-15",
-    "imagePublisher": "OpenLogic",
-    "imageOffer": "CentOS",
-    "ubuntuOSVersion": "7.1",
+    "imagePublisher": "Canonical",
+    "imageOffer": "UbuntuServer",
+    "ubuntuOSVersion": "16.04.0-LTS",
     "OSDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
     "nicName": "[concat(variables('scenarioPrefix'),'Nic')]",
     "vnetAddressPrefix": "10.0.0.0/16",
@@ -93,14 +57,15 @@
     "virtualNetworkName": "[concat(variables('scenarioPrefix'),'Vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
-    "userData": "[concat('#!/bin/bash\n\ntouch /tmp/cb-custom-data-default.txt\n','\necho \"export CBD_VERSION=',parameters('cbdVersion'),'\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_RESOURCE_GROUP_ID=',resourceGroup().id,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_VIRTUAL_NETWORK_ID=',variables('virtualNetworkName'),'\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBNET_ID=',variables('subnetName'),'\" >> /tmp/.cbdprofile','\necho export SHELL_SCRIPT=\"',parameters('cbShellScript'),'\" >> /tmp/.cbdprofile\n')]"
+    "singleQuote": "'",
+    "userData": "[concat('#!/bin/bash\n\ntouch /tmp/cb-custom-data-default.txt\n','\necho \"export CBD_VERSION=snapshot\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_DEFAULT_REGION=',resourceGroup().location,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho export ULU_HWX_CLOUD_AZURE_SSH_KEY=\"',variables('singleQuote'),parameters('sshKey'),variables('singleQuote'),'\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_AZURE_RESOURCE_GROUP=',resourceGroup().name,'\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_AZURE_DEFAULT_VIRTUAL_NETWORK_ID=',variables('virtualNetworkName'),'\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_DEFAULT_SUBNET_ID=',variables('subnetName'),'\" >> /tmp/.cbdprofile')]"
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('newStorageAccountName')]",
       "apiVersion": "[variables('apiVersion')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "accountType": "[variables('storageAccountType')]"
       }
@@ -109,7 +74,7 @@
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
@@ -121,7 +86,7 @@
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -142,7 +107,7 @@
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
@@ -168,7 +133,7 @@
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('vmName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('newStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
@@ -211,8 +176,8 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "cbdeployerVM/DockerExtension",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[parameters('location')]",
+      "apiVersion": "[variables('apiVersion')]",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
       ],
@@ -233,7 +198,7 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'),'/installcustomscript')]",
       "apiVersion": "[variables('apiVersion')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
         "[resourceId('Microsoft.Compute/virtualMachines/extensions', 'cbdeployerVM','DockerExtension')]"
