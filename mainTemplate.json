@@ -4,13 +4,39 @@
   "parameters": {
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_D1",
+      "defaultValue": "Standard_DS2",
       "allowedValues": [
-        "Standard_D1",
-        "Standard_D2"
+        "Standard_DS2",
+        "Standard_DS3",
+        "Standard_DS4",
+        "Standard_DS11",
+        "Standard_DS12",
+        "Standard_DS13",
+        "Standard_DS14",
+        "Standard_DS2_v2",
+        "Standard_DS3_v2",
+        "Standard_DS4_v2",
+        "Standard_DS11_v2",
+        "Standard_DS12_v2",
+        "Standard_DS13_v2",
+        "Standard_DS14_v2"
+
       ],
       "metadata": {
         "description": "Size of vm"
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "admin@example.com",
+      "metadata": {
+        "description": "Username for the Admin account. Must be a valid email address."
+      }
+    },
+    "adminUserPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for Admin account. Must be at least 8 characters containing letters, numbers and symbols."
       }
     },
     "username": {
@@ -24,6 +50,20 @@
       "type": "securestring",
       "metadata": {
         "description": "Password for the Virtual Machine."
+      }
+    },
+    "smartsense": {
+      "type": "string",
+      "defaultValue": "no",
+      "metadata": {
+        "description": "By Opting-In, you read and agree to the SmartSense terms."
+      }
+    },
+    "remoteLocation": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/16",
+      "metadata": {
+        "description": "Allow connections from this address range. Must be a valid CIDR IP."
       }
     },
     "sshKey": {
