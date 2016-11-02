@@ -55,6 +55,10 @@
     "smartsense": {
       "type": "string",
       "defaultValue": "no",
+      "allowedValues": [
+          "yes",
+          "no"
+      ],
       "metadata": {
         "description": "By Opting-In, you read and agree to the SmartSense terms."
       }
@@ -72,6 +76,16 @@
       "metadata": {
         "description": "SSH key for cloudbreak"
       }
+    },
+    "cloudControllerOsDisk": {
+    "type": "string",
+    "allowedValues": [
+        "new",
+        "existing"
+    ],
+    "metadata": {
+      "description": "Create new OS image or use existing one."
+    }
     }
   },
   "variables": {
@@ -84,7 +98,17 @@
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
     "ubuntuOSVersion": "16.04.0-LTS",
-    "OSDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
+    "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
+    "osDiskUriHash": {
+      "new": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
+      "existing": "http://sequenceiqnortheurope2.blob.core.windows.net/images/pkroscd89l62g2q.vhd"
+    },
+    "osDiskUri": "[variables('osDiskUriHash')[parameters('cloudControllerOsSDisk')]]",
+    "osDiskCreateOptionHash": {
+      "new": "FromImage",
+      "existing": "Attach"
+    },
+    "osDiskCreateOption": "[variables('osDiskCreateOptionHash')[parameters('cloudControllerOsSDisk')]]",
     "nicName": "[concat(variables('scenarioPrefix'),'Nic')]",
     "vnetAddressPrefix": "10.0.0.0/16",
     "subnetName": "[concat(variables('scenarioPrefix'),'Subnet')]",
@@ -198,10 +222,10 @@
           "osDisk": {
             "name": "osdisk1",
             "vhd": {
-              "uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
+              "uri": "[variables('osDiskUri')]"
             },
             "caching": "ReadWrite",
-            "createOption": "FromImage"
+            "createOption": "variables('osDiskCreateOption')"
           }
         },
         "networkProfile": {
