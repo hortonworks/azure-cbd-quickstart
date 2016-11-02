@@ -3,7 +3,7 @@
 exec > >(tee "/tmp/${BASH_SOURCE}.log") 2>&1
 set -x
 
-: ${CBD_VERSION:="snapshot"}
+: ${CBD_VERSION:="azure"}
 : ${CBD_DIR:="/var/lib/cloudbreak-deployment"}
 
 custom_data() {
@@ -37,9 +37,6 @@ install_cbd() {
     echo "export DOCKER_IMAGE_CLOUDBREAK_AUTH=hortonworks/cloud-auth" >> Profile
     echo "export CB_BLUEPRINT_DEFAULTS='EDW-ETL: Apache Hive 1.2.1, Apache Spark 1.6=hdp-etl-edw;Data Science: Apache Spark 1.6, Zeppelin=hdp25-data-science;25EDW-ETL: Apache Hive 1.2.1, Apache Spark 1.6=hdp25-etl-edw;EDW-ETL: Apache Spark 2.0-preview=hdp25-etl-edw-spark2;EDW-Analytics: Apache Hive 2 LLAP, Apache Zeppelin=hdp25-edw-analytics'" >> Profile
 
-    cbd version
-    cbd update azure_env_variables
-    cbd version
     cbd generate
     cbd pull-parallel
     cbd start-wait
