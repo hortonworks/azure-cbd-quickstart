@@ -103,12 +103,12 @@
       "new": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
       "existing": "http://sequenceiqnortheurope2.blob.core.windows.net/images/pkroscd89l62g2q.vhd"
     },
-    "osDiskUri": "[variables('osDiskUriHash')[parameters('cloudControllerOsSDisk')]]",
+    "osDiskUri": "[variables('osDiskUriHash')[parameters('cloudControllerOsDisk')]]",
     "osDiskCreateOptionHash": {
       "new": "FromImage",
       "existing": "Attach"
     },
-    "osDiskCreateOption": "[variables('osDiskCreateOptionHash')[parameters('cloudControllerOsSDisk')]]",
+    "osDiskCreateOption": "[variables('osDiskCreateOptionHash')[parameters('cloudControllerOsDisk')]]",
     "nicName": "[concat(variables('scenarioPrefix'),'Nic')]",
     "vnetAddressPrefix": "10.0.0.0/16",
     "subnetName": "[concat(variables('scenarioPrefix'),'Subnet')]",
@@ -225,7 +225,7 @@
               "uri": "[variables('osDiskUri')]"
             },
             "caching": "ReadWrite",
-            "createOption": "variables('osDiskCreateOption')"
+            "createOption": "[variables('osDiskCreateOption')]"
           }
         },
         "networkProfile": {
