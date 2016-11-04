@@ -29,17 +29,21 @@ install_cbd() {
     echo "export ULU_HWX_CLOUD_AZURE_RESOURCE_GROUP=$ULU_HWX_CLOUD_AZURE_RESOURCE_GROUP" >> Profile
     echo "export ULU_HWX_CLOUD_AZURE_SSH_KEY='$ULU_HWX_CLOUD_AZURE_SSH_KEY'" >> Profile
     echo "export AZURE_TENANT_ID=$AZURE_TENANT_ID" >> Profile
-    echo "export AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" >> Profile 
+    echo "export AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" >> Profile
     echo "export ULUWATU_CONTAINER_PATH=/hortonworks-cloud-web" >> Profile
     echo "export DOCKER_IMAGE_CLOUDBREAK_WEB=hortonworks/cloud-web" >> Profile
     echo "export DOCKER_TAG_ULUWATU=azure_aws" >> Profile
     echo "export DOCKER_TAG_SULTANS=latest" >> Profile
     echo "export DOCKER_IMAGE_CLOUDBREAK_AUTH=hortonworks/cloud-auth" >> Profile
     echo "export CB_BLUEPRINT_DEFAULTS='EDW-ETL: Apache Hive 1.2.1, Apache Spark 1.6=hdp-etl-edw;Data Science: Apache Spark 1.6, Zeppelin=hdp25-data-science;25EDW-ETL: Apache Hive 1.2.1, Apache Spark 1.6=hdp25-etl-edw;EDW-ETL: Apache Spark 2.0-preview=hdp25-etl-edw-spark2;EDW-Analytics: Apache Hive 2 LLAP, Apache Zeppelin=hdp25-edw-analytics'" >> Profile
+    echo "export UAA_DEFAULT_USER_EMAIL=$UAA_DEFAULT_USER_EMAIL" >> Profile
+    echo "export UAA_DEFAULT_USER_PW=$UAA_DEFAULT_USER_PW" >> Profile
+    echo "export CB_SMARTSENSE_CONFIGURE=$CB_SMARTSENSE_CONFIGURE" >> Profile
 
     cbd generate
     cbd pull-parallel
     cbd start-wait
+    cbd util smartsense
 }
 
 relocate_docker() {

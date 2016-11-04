@@ -46,18 +46,12 @@
         "description": "Username for the Virtual Machine."
       }
     },
-    "password": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Password for the Virtual Machine."
-      }
-    },
     "smartsense": {
       "type": "string",
-      "defaultValue": "no",
+      "defaultValue": "false",
       "allowedValues": [
-          "yes",
-          "no"
+          "true",
+          "false"
       ],
       "metadata": {
         "description": "By Opting-In, you read and agree to the SmartSense terms."
@@ -78,8 +72,9 @@
       }
     },
     "cloudControllerOsDisk": {
-    "type": "string",
-    "allowedValues": [
+      "type": "string",
+      "defaultValue": "new",
+      "allowedValues": [
         "new",
         "existing"
     ],
@@ -95,6 +90,9 @@
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
     "apiVersion": "2015-06-15",
+    "imagePublisher": "Canonical",
+    "imageOffer": "UbuntuServer",
+    "ubuntuOSVersion": "16.04.0-LTS",
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
     "osDiskUriHash": {
       "new": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
@@ -107,6 +105,7 @@
     },
     "osDiskCreateOption": "[variables('osDiskCreateOptionHash')[parameters('cloudControllerOsDisk')]]",
     "nicName": "[concat(variables('scenarioPrefix'),'Nic')]",
+    "sshKeyPath": "[concat('/home/',parameters('username'),'/.ssh/authorized_keys')]",
     "vnetAddressPrefix": "10.0.0.0/16",
     "subnetName": "[concat(variables('scenarioPrefix'),'Subnet')]",
     "subnetPrefix": "10.0.0.0/24",
@@ -119,7 +118,7 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
     "singleQuote": "'",
-    "userData": "[concat('#!/bin/bash\n\ntouch /tmp/cb-custom-data-default.txt\n','\necho \"export CBD_VERSION=azure\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_DEFAULT_REGION=',resourceGroup().location,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho export ULU_HWX_CLOUD_AZURE_SSH_KEY=\"',variables('singleQuote'),parameters('sshKey'),variables('singleQuote'),'\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_AZURE_RESOURCE_GROUP=',resourceGroup().name,'\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_AZURE_DEFAULT_VIRTUAL_NETWORK_ID=',variables('virtualNetworkName'),'\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_DEFAULT_SUBNET_ID=',variables('subnetName'),'\" >> /tmp/.cbdprofile')]"
+    "userData": "[concat('#!/bin/bash\n\ntouch /tmp/cb-custom-data-default.txt\n','\necho \"export CBD_VERSION=azure\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_DEFAULT_REGION=',resourceGroup().location,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho export ULU_HWX_CLOUD_AZURE_SSH_KEY=\"',variables('singleQuote'),parameters('sshKey'),variables('singleQuote'),'\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_AZURE_RESOURCE_GROUP=',resourceGroup().name,'\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_AZURE_DEFAULT_VIRTUAL_NETWORK_ID=',variables('virtualNetworkName'),'\" >> /tmp/.cbdprofile','\necho \"export ULU_HWX_CLOUD_DEFAULT_SUBNET_ID=',variables('subnetName'),'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_PW=',parameters('adminUserPassword'),'\" >> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile')]"
   },
   "resources": [
     {
@@ -206,13 +205,28 @@
         "osProfile": {
           "computerName": "[variables('vmName')]",
           "adminUsername": "[parameters('username')]",
-          "adminPassword": "[parameters('password')]",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": "true",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "[variables('sshKeyPath')]",
+                  "keyData": "[parameters('sshKey')]"
+                }
+              ]
+            }
+          },
           "customData": "[base64(variables('userData'))]"
         },
         "storageProfile": {
+          "imageReference": {
+          "publisher": "[variables('imagePublisher')]",
+          "offer": "[variables('imageOffer')]",
+          "sku": "[variables('ubuntuOSVersion')]",
+          "version": "latest"
+          },
           "osDisk": {
             "name": "osdisk1",
-            "osType": "Linux",
             "vhd": {
               "uri": "[variables('osDiskUri')]"
             },

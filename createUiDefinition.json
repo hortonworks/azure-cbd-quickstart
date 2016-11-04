@@ -5,10 +5,9 @@
       "basics":[
          {
             "name":"adminUsername",
-            "type":"Microsoft.Compute.UserNameTextBox",
-            "label":"Email Address",
+            "type":"Microsoft.Common.TextBox",
+            "label":"Administrator email address",
             "toolTip":"Username for the Admin account. Must be a valid email address.",
-            "osPlatform":"Linux",
             "constraints":{
                "required":true,
                "regex":"^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
@@ -61,17 +60,17 @@
             "name":"smartsense",
             "type":"Microsoft.Common.OptionsGroup",
             "label":"Enable SmartSense?",
-            "defaultValue":"No",
+            "defaultValue":"false",
             "toolTip":"By Opting-In, you read and agree to the SmartSense terms at http://tinyurl.com/hdcloud-1-8-0-smartsense-1",
             "constraints":{
                "allowedValues":[
                   {
                      "label":"I have read and opt in to SmartSense telemetry.",
-                     "value":"Yes"
+                     "value":"true"
                   },
                   {
                      "label":"I do not opt-in to SmartSense telemetry.",
-                     "value":"No"
+                     "value":"false"
                   }
                ]
             }
@@ -133,14 +132,13 @@
       "outputs":{
          "adminUsername":"[basics('adminUsername')]",
          "adminUserPassword":"[basics('adminUserPassword')]",
-         "authenticationType":"[basics('SSHCredntials').authenticationType]",
          "username":"[basics('vmUsername')]",
          "password":"[basics('SSHCredntials').password]",
          "sshKey":"[basics('SSHCredntials').sshPublicKey]",
-         "location":"[location()]",
          "smartsense":"[basics('smartsense')]",
          "vmSize":"[steps('AdvancedConfig').controllerVmSize]",
-         "remoteLocation":"[steps('AdvancedConfig').remoteLocation]"
+         "remoteLocation":"[steps('AdvancedConfig').remoteLocation]",
+         "cloudControllerOsDisk":"new"
       }
    }
 }
