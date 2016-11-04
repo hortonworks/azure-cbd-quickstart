@@ -95,13 +95,10 @@
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
     "apiVersion": "2015-06-15",
-    "imagePublisher": "Canonical",
-    "imageOffer": "UbuntuServer",
-    "ubuntuOSVersion": "16.04.0-LTS",
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
     "osDiskUriHash": {
       "new": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
-      "existing": "http://sequenceiqnortheurope2.blob.core.windows.net/images/pkroscd89l62g2q.vhd"
+      "existing": "https://sequenceiqnortheurope2.blob.core.windows.net/system/Microsoft.Compute/Images/packer/cbd-190-dev74-2016-11-04-osDisk.44030860-cc30-4a16-97a0-8a89780517a9.vhd"
     },
     "osDiskUri": "[variables('osDiskUriHash')[parameters('cloudControllerOsDisk')]]",
     "osDiskCreateOptionHash": {
@@ -213,14 +210,9 @@
           "customData": "[base64(variables('userData'))]"
         },
         "storageProfile": {
-          "imageReference": {
-            "publisher": "[variables('imagePublisher')]",
-            "offer": "[variables('imageOffer')]",
-            "sku": "[variables('ubuntuOSVersion')]",
-            "version": "latest"
-          },
           "osDisk": {
             "name": "osdisk1",
+            "osType": "Linux",
             "vhd": {
               "uri": "[variables('osDiskUri')]"
             },
