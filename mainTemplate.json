@@ -90,9 +90,9 @@
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
     "apiVersion": "2015-06-15",
-    "imagePublisher": "Canonical",
-    "imageOffer": "UbuntuServer",
-    "ubuntuOSVersion": "16.04.0-LTS",
+    "imagePublisher": "hortonworks",
+    "imageOffer": "hortonworks-cloud-controller-1_9_0-preview",
+    "imageSku": "1_9_0-dev33",
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
     "osDiskUriHash": {
       "new": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
@@ -198,6 +198,11 @@
         "[concat('Microsoft.Storage/storageAccounts/', variables('newStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
+      "plan": {
+        "name": "[variables('imageSku')]",
+        "product": "[variables('imageOffer')]",
+        "publisher": "[variables('imagePublisher')]"
+      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
@@ -220,10 +225,10 @@
         },
         "storageProfile": {
           "imageReference": {
-          "publisher": "[variables('imagePublisher')]",
-          "offer": "[variables('imageOffer')]",
-          "sku": "[variables('ubuntuOSVersion')]",
-          "version": "latest"
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[variables('imageSku')]",
+            "version": "latest"
           },
           "osDisk": {
             "name": "osdisk1",
