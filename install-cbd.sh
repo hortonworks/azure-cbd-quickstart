@@ -3,7 +3,7 @@
 exec > >(tee "/tmp/${BASH_SOURCE}.log") 2>&1
 set -x
 
-: ${CBD_VERSION:="1.6.0"}
+: ${CBD_VERSION:="1.6.1"}
 : ${CBD_DIR:="/var/lib/cloudbreak-deployment"}
 : ${WAIT_FOR_CB_RETRY:=50}
 

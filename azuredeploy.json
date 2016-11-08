@@ -39,10 +39,10 @@
     },
     "cbdVersion" : {
       "type": "string",
-      "defaultValue": "1.6.0",
+      "defaultValue": "1.6.1",
       "allowedValues": [
         "snapshot",
-        "1.6.0",
+        "1.6.1",
         "1.3.0"
       ],
       "metadata": {
@@ -72,7 +72,7 @@
   },
   "variables": {
     "newStorageAccountName": "[concat('cbdstorage', uniqueString(resourceGroup().id))]",
-    "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/1.6.0/install-cbd.sh",
+    "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/1.6.1/install-cbd.sh",
     "commandToExecute": "./install-cbd.sh",
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
