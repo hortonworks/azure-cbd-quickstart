@@ -92,7 +92,7 @@
     "apiVersion": "2015-06-15",
     "imagePublisher": "hortonworks",
     "imageOffer": "hortonworks-cloud-controller-1_9_0-preview",
-    "imageSku": "1_9_0-dev33",
+    "imageSku": "cloud-controller",
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
     "osDiskUriHash": {
       "new": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
