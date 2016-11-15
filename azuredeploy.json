@@ -42,8 +42,7 @@
       "defaultValue": "1.6.1",
       "allowedValues": [
         "snapshot",
-        "1.6.1",
-        "1.3.0"
+        "1.6.1"
       ],
       "metadata": {
         "description": "Release version of Cloudbreak Deployer"
