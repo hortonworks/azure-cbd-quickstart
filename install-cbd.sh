@@ -20,7 +20,7 @@ install_cbd() {
 
     CREDENTIAL_NAME=defaultcredential
 
-    echo export PUBLIC_IP=$(curl ifconfig.co) > Profile
+    echo export PUBLIC_IP=$(dig +short myip.opendns.com @resolver1.opendns.com) > Profile
     echo "export ULU_HWX_CLOUD_PROVIDER='AZURE_RM'" >> Profile
     echo "export ULU_HWX_CLOUD_DEFAULT_REGION='$ULU_HWX_CLOUD_DEFAULT_REGION'" >> Profile
     echo "export ULU_HWX_CLOUD_DEFAULT_SUBNET_ID=$ULU_HWX_CLOUD_DEFAULT_SUBNET_ID" >> Profile
