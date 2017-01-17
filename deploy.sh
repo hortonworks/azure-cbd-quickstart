@@ -1,6 +1,6 @@
 #!/bin/bash
 
-: ${CBD_VERSION:=1.6.1}
+: ${CBD_VERSION:=1.6.2}
 
 : ${SSH_USERNAME:?SSH user name required}
 : ${SSH_PASSWORD:?SSH user password required}
