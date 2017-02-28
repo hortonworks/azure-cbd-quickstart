@@ -26,7 +26,7 @@ install_cbd() {
     echo "export UAA_DEFAULT_USER_EMAIL=$UAA_DEFAULT_USER_EMAIL" >> Profile
     echo "export UAA_DEFAULT_USER_PW=$UAA_DEFAULT_USER_PW" >> Profile
     echo "export CB_SMARTSENSE_CONFIGURE=$CB_SMARTSENSE_CONFIGURE" >> Profile
-    echo "export CB_ENABLEDPLATFORMS=AZURE_RM,AZURE" >> Profile
+    echo "export CB_ENABLEDPLATFORMS=AZURE" >> Profile
 
     cbd generate
     cbd pull-parallel

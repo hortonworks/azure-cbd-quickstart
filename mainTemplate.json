@@ -59,7 +59,7 @@
     },
     "remoteLocation": {
       "type": "string",
-      "defaultValue": "10.0.0.0/16",
+      "defaultValue": "INTERNET",
       "metadata": {
         "description": "Allow connections from this address range. Must be a valid CIDR IP."
       }
