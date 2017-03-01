@@ -20,7 +20,7 @@ install_cbd() {
 
     CREDENTIAL_NAME=defaultcredential
 
-    echo export PUBLIC_IP=$(dig +short myip.opendns.com @resolver1.opendns.com) > Profile
+    echo "export PUBLIC_IP=$PUBLIC_IP" > Profile
     echo "export AZURE_TENANT_ID=$AZURE_TENANT_ID" >> Profile
     echo "export AZURE_SUBSCRIPTION_ID=$AZURE_SUBSCRIPTION_ID" >> Profile
     echo "export UAA_DEFAULT_USER_EMAIL=$UAA_DEFAULT_USER_EMAIL" >> Profile

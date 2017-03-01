@@ -26,15 +26,17 @@
             "options":{
                "hideConfirmation":false
             },
-            "constraints":{
-               "required":true
+            "constraints": {
+                 "required": true,
+                 "regex": "^((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])|(?=.*[0-9])(?=.*[a-z])(?=.*[!@#$%^&*])|(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])).{6,72}$",
+                 "validationMessage": "Password must be at least 6 characters long and have 3 out of the following: one number, one lower case, one upper case, or one special character"
              }
          },
          {
             "name":"vmUsername",
             "type":"Microsoft.Compute.UserNameTextBox",
             "label":"VM Username",
-            "toolTip":"Admin username for the virtual machines. Same Credientials is to SSH to the box.",
+            "toolTip":"Admin username for the virtual machines. Same credentials is to SSH to the box.",
             "osPlatform":"Linux",
             "constraints":{
                "required":true
@@ -55,7 +57,8 @@
                "sshPublicKey":""
             },
             "constraints":{
-               "required":true
+               "required":true,
+               "customValidationMessage":"Please use the correct SSH public key format. You can find examples here: https://www.ietf.org/rfc/rfc4716.txt"                          
             },
             "options":{
                "hideConfirmation":false,
@@ -67,7 +70,7 @@
             "name":"smartsense",
             "type":"Microsoft.Common.OptionsGroup",
             "label":"Enable SmartSense?",
-            "defaultValue":"false",
+            "defaultValue":"I have read and opt in to SmartSense telemetry.",
             "toolTip":"By Opting-In, you read and agree to the SmartSense terms at http://tinyurl.com/hdcloud-1-8-0-smartsense-1",
             "constraints":{
                "allowedValues":[

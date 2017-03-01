@@ -112,14 +112,13 @@
     "securityGroupName": "[concat(variables('scenarioPrefix'),'Nsg')]",
     "storageAccountType": "Standard_LRS",
     "publicIPAddressName": "[concat(variables('scenarioPrefix'),'PublicIp')]",
-    "publicIPAddressType": "Dynamic",
+    "publicIPAddressType": "Static",
     "vmStorageAccountContainerName": "vhds",
     "vmName": "[concat(variables('scenarioPrefix'),'VM')]",
     "virtualNetworkName": "[concat(variables('scenarioPrefix'),'Vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
-    "singleQuote": "'",
-    "userData": "[concat('#!/bin/bash\n\ntouch /tmp/cb-custom-data-default.txt\n','\necho \"export CBD_VERSION=snapshot\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_PW=',parameters('adminUserPassword'),'\" >> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile')]"
+    "singleQuote": "'"
   },
   "resources": [
     {
@@ -186,6 +185,20 @@
             }
           },
           {
+            "name": "http_rule",
+            "properties": {
+                "description": "Allow HTTP",
+                "protocol": "Tcp",
+                "sourcePortRange": "*",
+                "destinationPortRange": "80",
+                "sourceAddressPrefix": "[parameters('remoteLocation')]",
+                "destinationAddressPrefix": "*",
+                "access": "Allow",
+                "priority": 101,
+                "direction": "Inbound"
+            }
+          },
+          {
             "name": "https_rule",
             "properties": {
                 "description": "Allow HTTPS",
@@ -195,7 +208,7 @@
                 "sourceAddressPrefix": "[parameters('remoteLocation')]",
                 "destinationAddressPrefix": "*",
                 "access": "Allow",
-                "priority": 101,
+                "priority": 102,
                 "direction": "Inbound"
             }
           }
@@ -264,7 +277,7 @@
               ]
             }
           },
-          "customData": "[base64(variables('userData'))]"
+          "customData": "[base64(concat('#!/bin/bash\n\ntouch /tmp/cb-custom-data-default.txt\n','\necho \"export PUBLIC_IP=',reference(variables('publicIPAddressName')).ipAddress,'\" >> /tmp/.cbdprofile','\necho \"export CBD_VERSION=snapshot\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_PW=',parameters('adminUserPassword'),'\" >> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile'))]"
         },
         "storageProfile": {
           "imageReference": {
@@ -333,9 +346,9 @@
     }
   ],
   "outputs": {
-     "publicIp": {
+     "loginUrl": {
        "type": "string",
-       "value": "[resourceId(concat('Microsoft.Network','/','publicIPAddresses'),variables('publicIPAddressName'))]"
+       "value": "[reference(variables('publicIPAddressName')).ipAddress]"
      }
    }
 }
