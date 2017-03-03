@@ -138,7 +138,7 @@
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[concat('dnsname', uniqueString(resourceGroup().id))]"
+          "domainNameLabel": "[concat('cloudbreak-controller-', uniqueString(resourceGroup().id))]"
         }
       }
     },
@@ -277,7 +277,7 @@
               ]
             }
           },
-          "customData": "[base64(concat('#!/bin/bash\n\ntouch /tmp/cb-custom-data-default.txt\n','\necho \"export PUBLIC_IP=',reference(variables('publicIPAddressName')).ipAddress,'\" >> /tmp/.cbdprofile','\necho \"export CBD_VERSION=snapshot\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_PW=',parameters('adminUserPassword'),'\" >> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile'))]"
+          "customData": "[base64(concat('#!/bin/bash\n','\necho \"export PUBLIC_IP=',reference(variables('publicIPAddressName')).ipAddress,'\" >> /tmp/.cbdprofile','\necho \"export CBD_VERSION=snapshot\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_PW=',parameters('adminUserPassword'),'\" >> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile'))]"
         },
         "storageProfile": {
           "imageReference": {
@@ -306,7 +306,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "cbdeployerVM/DockerExtension",
+      "name": "[concat(variables('vmName'),'/installcustomscript')]",
       "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -314,30 +314,8 @@
       ],
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
-        "type": "DockerExtension",
-        "typeHandlerVersion": "1.1",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-            "docker":{
-                "options": ["--storage-driver=overlay", "--graph=/mnt/resource/docker/"]
-            }
-        },
-        "protectedSettings": {}
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/installcustomscript')]",
-      "apiVersion": "2015-06-15",
-      "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
-        "[resourceId('Microsoft.Compute/virtualMachines/extensions', 'cbdeployerVM','DockerExtension')]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.3",
+        "type": "CustomScript",
+        "typeHandlerVersion": "2.0",
         "settings": {
           "fileUris": "[split(variables('fileUris'), ' ')]",
           "commandToExecute": "[variables('commandToExecute')]"

@@ -49,7 +49,6 @@ disable_dnsmasq() {
 
 main() {
     disable_dnsmasq
-    apt-get install -y unzip
     custom_data
     #relocate_docker
     install_cbd
