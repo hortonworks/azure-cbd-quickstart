@@ -10,6 +10,7 @@ custom_data() {
     set -o allexport
     source /tmp/.cbdprofile
     set +o allexport
+    rm /tmp/.cbdprofile
 }
 
 install_cbd() {
@@ -17,6 +18,11 @@ install_cbd() {
     curl -Ls s3.amazonaws.com/public-repo-1.hortonworks.com/HDP/cloudbreak/cloudbreak-deployer_${CBD_VERSION}_$(uname)_x86_64.tgz | tar -xz -C /bin cbd
     mkdir $CBD_DIR
     cd $_
+
+    usermod -aG docker ${OS_USER}
+    chown -R $OS_USER:$OS_USER $CBD_DIR
+    chown -R $OS_USER:$OS_USER /var/lib/cloudbreak/
+    sudo su $OS_USER
 
     CREDENTIAL_NAME=defaultcredential
 
