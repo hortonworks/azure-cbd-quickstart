@@ -91,12 +91,12 @@
     "scenarioPrefix": "cbdeployer",
     "apiVersion": "2016-06-01",
     "imagePublisher": "hortonworks",
-    "imageOffer": "hortonworks-cloud-controller-1_9_0-preview",
-    "imageSku": "cloud-controller",
+    "imageOffer": "cloudbreak-for-hortonworks-data-platform-preview",
+    "imageSku": "cloudbreak-for-hortonworks-data-platform",
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
     "osDiskUriHash": {
       "new": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
-      "existing": "https://sequenceiqnortheurope2.blob.core.windows.net/system/Microsoft.Compute/Images/packer/cbd-190-dev74-2016-11-04-osDisk.44030860-cc30-4a16-97a0-8a89780517a9.vhd"
+      "existing": "https://sequenceiqnortheurope2.blob.core.windows.net/system/Microsoft.Compute/Images/packer/cbd-1131-20170306-osDisk.25cd0a69-414e-4f0e-9055-45ba76c10a3b.vhd"
     },
     "osDiskUri": "[variables('osDiskUriHash')[parameters('cloudControllerOsDisk')]]",
     "osDiskCreateOptionHash": {
