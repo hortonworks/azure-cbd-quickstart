@@ -13,16 +13,15 @@ custom_data() {
     rm /tmp/.cbdprofile
 }
 
-install_cbd() {
+download_cbd() {
     set -x
     curl -Ls s3.amazonaws.com/public-repo-1.hortonworks.com/HDP/cloudbreak/cloudbreak-deployer_${CBD_VERSION}_$(uname)_x86_64.tgz | tar -xz -C /bin cbd
     mkdir $CBD_DIR
     cd $_
+    whoami
+}
 
-    usermod -aG docker ${OS_USER}
-    chown -R $OS_USER:$OS_USER $CBD_DIR
-    chown -R $OS_USER:$OS_USER /var/lib/cloudbreak/
-    sudo su $OS_USER
+install_cbd() {
 
     CREDENTIAL_NAME=defaultcredential
 
@@ -38,6 +37,14 @@ install_cbd() {
     cbd pull-parallel
     cbd start-wait
     cbd util smartsense
+    whoami
+}
+
+set_perm() {
+    usermod -aG docker ${OS_USER}
+    chown -R $OS_USER:$OS_USER $CBD_DIR
+    chown -R $OS_USER:$OS_USER /var/lib/cloudbreak/
+    whoami
 }
 
 relocate_docker() {
@@ -57,7 +64,10 @@ main() {
     disable_dnsmasq
     custom_data
     #relocate_docker
-    install_cbd
+    download_cbd
+    set_perm
+    export -f install_cbd
+    su $OS_USER -c "install_cbd"
 }
 
 [[ "$0" == "$BASH_SOURCE" ]] && main "$@" || true
