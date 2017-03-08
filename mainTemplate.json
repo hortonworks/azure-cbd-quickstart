@@ -29,12 +29,14 @@
     "adminUsername": {
       "type": "string",
       "defaultValue": "admin@example.com",
+      "minLength": 6,
       "metadata": {
         "description": "Username for the Admin account. Must be a valid email address."
       }
     },
     "adminUserPassword": {
       "type": "securestring",
+      "minLength": 6,
       "metadata": {
         "description": "Password for Admin account. Must be at least 8 characters containing letters, numbers and symbols."
       }

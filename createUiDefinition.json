@@ -21,7 +21,7 @@
                "password":"Administrator user password",
                "confirmPassword":"Confirm password"
             },
-            "toolTip":"Password for Admin account. Must be at least 8 characters containing letters, numbers and symbols.",
+            "toolTip":"Password for Admin account. Must be at least 6 characters containing letters, numbers and symbols.",
             "osPlatform":"Linux",
             "options":{
                "hideConfirmation":false
@@ -58,7 +58,7 @@
             },
             "constraints":{
                "required":true,
-               "customValidationMessage":"Please use the correct SSH public key format. You can find examples here: https://www.ietf.org/rfc/rfc4716.txt"                          
+               "customValidationMessage":"Please use the correct SSH public key format. You can find examples here: https://www.ietf.org/rfc/rfc4716.txt"
             },
             "options":{
                "hideConfirmation":false,
