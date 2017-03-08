@@ -58,7 +58,7 @@
             },
             "constraints":{
                "required":true,
-               "customValidationMessage":"Please use the correct SSH public key format. You can find examples here: https://www.ietf.org/rfc/rfc4716.txt"
+               "customValidationMessage":"Please use the correct SSH public key format. You can find examples [here](https://www.ietf.org/rfc/rfc4716.txt)"
             },
             "options":{
                "hideConfirmation":false,
@@ -71,7 +71,7 @@
             "type":"Microsoft.Common.OptionsGroup",
             "label":"Enable SmartSense?",
             "defaultValue":"I have read and opt in to SmartSense telemetry.",
-            "toolTip":"By Opting-In, you read and agree to the SmartSense terms at http://tinyurl.com/hdcloud-1-8-0-smartsense-1",
+            "toolTip":"By Opting-In, you read and agree to the SmartSense [terms](http://tinyurl.com/hdcloud-1-8-0-smartsense-1)",
             "constraints":{
                "allowedValues":[
                   {
@@ -100,7 +100,7 @@
                   "name":"controllerVmSize",
                   "type":"Microsoft.Compute.SizeSelector",
                   "label":"Controller Instance Type",
-                  "toolTip":"Virtual machine instance type to use for the cloud controller",
+                  "toolTip":"Virtual machine [instance type](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/) to use for the cloud controller",
                   "recommendedSizes":[
                      "Standard_DS2_v2"
                   ],
@@ -129,12 +129,12 @@
                   "name":"remoteLocation",
                   "type":"Microsoft.Common.TextBox",
                   "label":"Allow connections to the cloud controller from this address range or default tag (INTERNET/VIRTUAL_NETWORK/AZURE_LOADBALANCER).",
-                  "toolTip": "Must be a valid CIDR IP or default tag (https://tinyurl.com/nsg-default-tags). E.g. 10.0.0.0/24 will allow access from 10.0.0.0 through 10.0.0.255.",
+                  "toolTip": "Must be a valid CIDR IP or [default tag](https://tinyurl.com/nsg-default-tags). E.g. 10.0.0.0/24 will allow access from 10.0.0.0 through 10.0.0.255.",
                   "defaultValue":"",
                   "constraints":{
                      "required":true,
                      "regex":"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$|^INTERNET$|^AZURE_LOADBALANCER$|^VIRTUAL_NETWORK$",
-                     "validationMessage":"Must be a single IP address or an IP address range in CIDR notation (More information at https://tinyurl.com/nsg-default-tags)."
+                     "validationMessage":"Must be a single IP address or an IP address range in CIDR notation (More information [here](https://tinyurl.com/nsg-default-tags))."
                   }
                }
             ]
