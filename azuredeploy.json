@@ -39,10 +39,10 @@
     },
     "cbdVersion" : {
       "type": "string",
-      "defaultValue": "1.6.3",
+      "defaultValue": "1.14.0",
       "allowedValues": [
         "snapshot",
-        "1.6.3"
+        "1.14.0"
       ],
       "metadata": {
         "description": "Release version of Cloudbreak Deployer"
@@ -71,7 +71,7 @@
   },
   "variables": {
     "newStorageAccountName": "[concat('cbdstorage', uniqueString(resourceGroup().id))]",
-    "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/1.6.3/install-cbd.sh",
+    "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/1.14.0/install-cbd.sh",
     "commandToExecute": "./install-cbd.sh",
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
