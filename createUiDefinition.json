@@ -1,4 +1,5 @@
 {
+   "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
    "handler":"Microsoft.Compute.MultiVm",
    "version":"0.1.2-preview",
    "parameters":{
@@ -22,7 +23,6 @@
                "confirmPassword":"Confirm password"
             },
             "toolTip":"Password for Admin account. Must be at least 6 characters containing letters, numbers and symbols.",
-            "osPlatform":"Linux",
             "options":{
                "hideConfirmation":false
             },
@@ -102,7 +102,9 @@
                   "label":"Controller Instance Type",
                   "toolTip":"Virtual machine [instance type](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/) to use for the cloud controller",
                   "recommendedSizes":[
-                     "Standard_DS2_v2"
+                     "Standard_DS2_v2",
+                     "Standard_DS3_v2",
+                     "Standard_DS4_v2"
                   ],
                   "constraints":{
                      "allowedSizes":[
@@ -128,7 +130,7 @@
                {
                   "name":"remoteLocation",
                   "type":"Microsoft.Common.TextBox",
-                  "label":"Allow connections to the cloud controller from this address range or default tag (INTERNET/VIRTUAL_NETWORK/AZURE_LOADBALANCER).",
+                  "label":"Allow connections to the cloud controller from this address range or default tag (e.g. INTERNET).",
                   "toolTip": "Must be a valid CIDR IP or [default tag](https://tinyurl.com/nsg-default-tags). E.g. 10.0.0.0/24 will allow access from 10.0.0.0 through 10.0.0.255.",
                   "defaultValue":"",
                   "constraints":{
