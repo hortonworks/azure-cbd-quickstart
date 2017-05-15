@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "cbdVersion": {
-      "value": "1.14.0"
+      "value": "1.14.4"
     },
     "location": {
       "value": "West Europe"
