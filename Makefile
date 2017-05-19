@@ -32,6 +32,7 @@ clean:
 build:
 	mkdir -p build
 	@sigil -f mainTemplate.tmpl VERSION="$(CBD_VERSION)" > mainTemplate.json
+	@sigil -f README.md.tmpl VERSION="$(CBD_VERSION)" > README.md
 	if ! git diff --exit-code > /dev/null; then \
 		git commit -am "update version"; \
 		git tag $(NEW_VERSION); \
