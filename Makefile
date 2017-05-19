@@ -25,12 +25,7 @@ deps:
 	curl -sL https://github.com/lalyos/sigil/releases/download/v0.4.1/sigil_0.4.1_$(shell uname)_x86_64.tgz | tar -xz -C /usr/local/bin
 	curl -sL https://github.com/lalyos/atlas/releases/download/v0.0.5/atlas_0.0.5_$(shell uname)_x86_64.tgz | tar -xz -C /usr/local/bin/
 
-clean:
-	rm -rf build
-	mkdir -p build
-
 build:
-	mkdir -p build
 	@sigil -f mainTemplate.tmpl VERSION="$(CBD_VERSION)" > mainTemplate.json
 	@sigil -f README.md.tmpl VERSION="$(CBD_VERSION)" > README.md
 	if ! git diff --exit-code > /dev/null; then \
