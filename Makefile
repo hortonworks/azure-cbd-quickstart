@@ -13,7 +13,7 @@ build:
 	@sigil -f mainTemplate.tmpl VERSION="$(NEW_VERSION)" > mainTemplate.json
 	@sigil -f README.md.tmpl VERSION="$(NEW_VERSION)" > README.md
 	if ! git diff --exit-code > /dev/null; then \
-		git commit -am "update version"; \
+		git commit -am "update version to $(NEW_VERSION)"; \
 		git tag $(NEW_VERSION); \
 		git push origin HEAD:$(GIT_BRANCH) --tags; \
 	fi
