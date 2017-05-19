@@ -10,7 +10,3 @@ For Azure we have an alternative approach:
 ## Deploy via Azure web UI
 
 Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsequenceiq%2Fazure-cbd-quickstart%2Fazure-marketplace%2FmainTemplate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
-
-## Deeploy via azure CLI
-
-For more information about command line tool, please read concerning [documentation](CLI.md).
