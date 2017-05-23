@@ -10,12 +10,15 @@ deps:
 	curl -sL https://github.com/lalyos/atlas/releases/download/v0.0.5/atlas_0.0.5_$(shell uname)_x86_64.tgz | tar -xz -C /usr/local/bin/
 
 build:
-	@sigil -f mainTemplate.tmpl VERSION="$(NEW_VERSION)" > mainTemplate.json
+	./create-template.sh
 	@sigil -f README.md.tmpl VERSION="$(NEW_VERSION)" > README.md
+
+push:
 	if ! git diff --exit-code > /dev/null; then \
 		git commit -am "update version to $(NEW_VERSION)"; \
 		git tag $(NEW_VERSION); \
-		git push origin HEAD:$(GIT_BRANCH) --tags; \
+		git push origin $(NEW_VERSION); \
+		git push origin HEAD:$(GIT_BRANCH); \
 	fi
 
 build-as-snapshot:

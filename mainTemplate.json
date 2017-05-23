@@ -98,7 +98,7 @@
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
     "osDiskUriHash": {
       "new": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
-      "existing": "https://sequenceiqnortheurope2.blob.core.windows.net/system/Microsoft.Compute/Images/packer/cbd-1131-20170306-osDisk.25cd0a69-414e-4f0e-9055-45ba76c10a3b.vhd"
+      "existing": "https://sequenceiqnortheurope2.blob.core.windows.net/system/Microsoft.Compute/Images/packer/cbd-1150-rc5-20170525-osDisk.24b7ddd8-259e-411b-ab35-ed533375a3dd.vhd"
     },
     "osDiskUri": "[variables('osDiskUriHash')[parameters('cloudControllerOsDisk')]]",
     "osDiskCreateOptionHash": {
