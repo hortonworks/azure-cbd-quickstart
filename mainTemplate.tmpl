@@ -72,9 +72,6 @@
       "metadata": {
         "description": "SSH key for cloudbreak"
       }
-    },
-    "metadata": {
-      "description": "Create new OS image or use existing one."
     }
   },
   "variables": {
@@ -280,6 +277,7 @@
             "image" : {
                 "uri" : "https://sequenceiqnortheurope2.blob.core.windows.net/system/{{ $IMAGE_VHD }}"
             },
+            "osType" : "linux",
           {{end}}
             "vhd": {
               "uri": "[variables('osDiskUri')]"
