@@ -73,16 +73,8 @@
         "description": "SSH key for cloudbreak"
       }
     },
-    "cloudControllerOsDisk": {
-      "type": "string",
-      "defaultValue": "new",
-      "allowedValues": [
-        "new",
-        "existing"
-    ],
     "metadata": {
       "description": "Create new OS image or use existing one."
-    }
     }
   },
   "variables": {
@@ -96,16 +88,8 @@
     "imageOffer": "cloudbreak-for-hortonworks-data-platform-preview",
     "imageSku": "cloudbreak-for-hortonworks-data-platform",
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
-    "osDiskUriHash": {
-      "new": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
-      "existing": "https://sequenceiqnortheurope2.blob.core.windows.net/system/{{ $IMAGE_VHD }}"
-    },
-    "osDiskUri": "[variables('osDiskUriHash')[parameters('cloudControllerOsDisk')]]",
-    "osDiskCreateOptionHash": {
-      "new": "FromImage",
-      "existing": "Attach"
-    },
-    "osDiskCreateOption": "[variables('osDiskCreateOptionHash')[parameters('cloudControllerOsDisk')]]",
+    "osDiskUri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
+    "osDiskCreateOption": "FromImage",
     "nicName": "[concat(variables('scenarioPrefix'),'Nic')]",
     "sshKeyPath": "[concat('/home/',parameters('username'),'/.ssh/authorized_keys')]",
     "vnetAddressPrefix": "10.0.0.0/16",
@@ -282,14 +266,21 @@
           "customData": "[base64(concat('#!/bin/bash\n','\necho \"export PUBLIC_IP=',reference(variables('publicIPAddressName')).ipAddress,'\" >> /tmp/.cbdprofile','\necho \"export CBD_VERSION={{$VERSION}}\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_PW=',parameters('adminUserPassword'),'\" >> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile','\necho \"export OS_USER=',parameters('username'),'\" >> /tmp/.cbdprofile', '\necho \"export ULU_DEFAULT_SSH_KEY=',variables('singleQuote'),parameters('sshKey'),variables('singleQuote'),'\" >> /tmp/.cbdprofile', '\necho \"export UAA_DEFAULT_SECRET=',base64(resourceGroup().id),'\" >> /tmp/.cbdprofile'))]"
         },
         "storageProfile": {
+          {{if ne $OS_IMAGE_SKU_VERSION ""}}
           "imageReference": {
             "publisher": "[variables('imagePublisher')]",
             "offer": "[variables('imageOffer')]",
             "sku": "[variables('imageSku')]",
-            "version": "latest"
+            "version": "{{ $OS_IMAGE_SKU_VERSION }}"
           },
+          {{end}}
           "osDisk": {
             "name": "osdisk1",
+          {{if eq $OS_IMAGE_SKU_VERSION ""}}
+            "image" : {
+                "uri" : "https://sequenceiqnortheurope2.blob.core.windows.net/system/{{ $IMAGE_VHD }}"
+            },
+          {{end}}
             "vhd": {
               "uri": "[variables('osDiskUri')]"
             },
