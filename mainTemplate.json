@@ -268,8 +268,9 @@
             "name": "osdisk1",
           
             "image" : {
-                "uri" : "https://sequenceiqnortheurope2.blob.core.windows.net/system/"
+                "uri" : "https://sequenceiqnortheurope2.blob.core.windows.net/system/Microsoft.Compute/Images/packer/cbd-1150-rc12-20170525-osDisk.8d604d16-7e13-4352-8fda-2360a4a6b732.vhd"
             },
+            "osType" : "linux",
           
             "vhd": {
               "uri": "[variables('osDiskUri')]"

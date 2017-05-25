@@ -10,8 +10,8 @@ IMAGE_NAME="$(atlas -s sequenceiq/cbd/azure-arm.image --meta cbd_version=$NEW_VE
 
 echo "IMAGE_NAME: $IMAGE_NAME"
 
-IMAGE_VHD="$(docker run -it --rm azuresdk/azure-cli-python:0.2.9 az login --username $ARM_USERNAME --password $ARM_PASSWORD &> /dev/null; \
-az storage blob list -c system --account-name sequenceiqnortheurope2 --prefix Microsoft.Compute/Images/packer/$IMAGE_NAME | jq '.[0].name' -r | awk '{print $1;}')"
+IMAGE_VHD="$(bash -c 'docker run -it --rm azuresdk/azure-cli-python:0.2.9 az login --username $ARM_USERNAME --password $ARM_PASSWORD &> /dev/null; \
+az storage blob list -c system --account-name sequenceiqnortheurope2 --prefix Microsoft.Compute/Images/packer/$IMAGE_NAME' | jq '.[0].name' -r)"
 
 echo "IMAGE_VHD: $IMAGE_VHD"
 echo "OS_IMAGE_SKU_VERSION: $OS_IMAGE_SKU_VERSION"
