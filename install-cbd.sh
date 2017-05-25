@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exec > >(tee "/tmp/${BASH_SOURCE}.log") 2>&1
+exec > >(tee "/var/log/${BASH_SOURCE}.log") 2>&1
 set -x
 
 : ${CBD_VERSION:="snapshot"}
@@ -36,6 +36,7 @@ install_cbd() {
     echo "export CB_ENABLEDPLATFORMS=AZURE" >> Profile
     echo "export ULU_DEFAULT_SSH_KEY='$ULU_DEFAULT_SSH_KEY'" >> Profile
     echo "export CB_BLUEPRINT_DEFAULTS='$CB_BLUEPRINT_DEFAULTS'" >> Profile
+    echo "export CB_INSTANCE_UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')" >> $CBD_PROFILE
 
     cbd generate
     cbd pull-parallel
