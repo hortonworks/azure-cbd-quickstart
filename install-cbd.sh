@@ -36,7 +36,7 @@ install_cbd() {
     echo "export CB_ENABLEDPLATFORMS=AZURE" >> Profile
     echo "export ULU_DEFAULT_SSH_KEY='$ULU_DEFAULT_SSH_KEY'" >> Profile
     echo "export CB_BLUEPRINT_DEFAULTS='$CB_BLUEPRINT_DEFAULTS'" >> Profile
-    echo "export CB_INSTANCE_UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')" >> $CBD_PROFILE
+    echo "export CB_INSTANCE_UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')" >> Profile
 
     cbd generate
     cbd pull-parallel
