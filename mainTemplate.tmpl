@@ -229,7 +229,7 @@
       }
     },
     {
-      "apiVersion": "2016-03-30",
+      "apiVersion": "2016-04-30-preview",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('vmName')]",
       "location": "[resourceGroup().location]",
@@ -237,11 +237,13 @@
         "[concat('Microsoft.Storage/storageAccounts/', variables('newStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
+      {{if ne $OS_IMAGE_SKU_VERSION ""}}
       "plan": {
         "name": "[variables('imageSku')]",
         "product": "[variables('imageOffer')]",
         "publisher": "[variables('imagePublisher')]"
       },
+      {{end}}
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
@@ -274,17 +276,21 @@
           "osDisk": {
             "name": "osdisk1",
           {{if eq $OS_IMAGE_SKU_VERSION ""}}
-            "image" : {
-                "uri" : "https://sequenceiqnortheurope2.blob.core.windows.net/system/{{ $IMAGE_VHD }}"
-            },
-            "osType" : "linux",
+            "osType" : "Linux",
           {{end}}
+          {{if ne $OS_IMAGE_SKU_VERSION ""}}
             "vhd": {
               "uri": "[variables('osDiskUri')]"
             },
+          {{end}}
             "caching": "ReadWrite",
             "createOption": "[variables('osDiskCreateOption')]"
           }
+          {{if eq $OS_IMAGE_SKU_VERSION ""}}
+          ,"imageReference": {
+            "id": "{{$MANAGED_IMAGE_ID}}"
+          }
+          {{end}}
         },
         "networkProfile": {
           "networkInterfaces": [

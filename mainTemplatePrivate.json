@@ -238,12 +238,6 @@
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
       
-      "plan": {
-        "name": "[variables('imageSku')]",
-        "product": "[variables('imageOffer')]",
-        "publisher": "[variables('imagePublisher')]"
-      },
-      
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
@@ -266,23 +260,18 @@
         },
         "storageProfile": {
           
-          "imageReference": {
-            "publisher": "[variables('imagePublisher')]",
-            "offer": "[variables('imageOffer')]",
-            "sku": "[variables('imageSku')]",
-            "version": "latest"
-          },
-          
           "osDisk": {
             "name": "osdisk1",
           
+            "osType" : "Linux",
           
-            "vhd": {
-              "uri": "[variables('osDiskUri')]"
-            },
           
             "caching": "ReadWrite",
             "createOption": "[variables('osDiskCreateOption')]"
+          }
+          
+          ,"imageReference": {
+            "id": "/subscriptions/947dafa0-8a1d-4ac9-909b-c71a0fa03ea6/resourceGroups/cbd-images/providers/Microsoft.Compute/images/1150-rc18"
           }
           
         },

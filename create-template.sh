@@ -1,19 +1,13 @@
 #!/bin/bash
 
-: ${ARM_USERNAME:?"need to set ARM_USERNAME"}
-: ${ARM_PASSWORD:?"need to set ARM_PASSWORD"}
 : ${NEW_VERSION:?"need to set NEW_VERSION"}
+: ${OS_IMAGE_SKU_VERSION:="latest"}
 
-echo "NEW_VERSION: $NEW_VERSION"
+CBD_VERSION_UNDERSCORE=$(echo $NEW_VERSION | tr -d .)
+echo "CBD_VERSION_UNDERSCORE: $CBD_VERSION_UNDERSCORE"
 
-IMAGE_NAME="$(atlas -s sequenceiq/cbd/azure-arm.image --meta cbd_version=$NEW_VERSION -l | jq .metadata.short_image_name -r)"
+MANAGED_IMAGE_ID="/subscriptions/947dafa0-8a1d-4ac9-909b-c71a0fa03ea6/resourceGroups/cbd-images/providers/Microsoft.Compute/images/$CBD_VERSION_UNDERSCORE"
+echo "MANAGED_IMAGE_ID: $MANAGED_IMAGE_ID"
 
-echo "IMAGE_NAME: $IMAGE_NAME"
-
-IMAGE_VHD="$(bash -c 'docker run -it --rm azuresdk/azure-cli-python:0.2.9 az login --username $ARM_USERNAME --password $ARM_PASSWORD &> /dev/null; \
-az storage blob list -c system --account-name sequenceiqnortheurope2 --prefix Microsoft.Compute/Images/packer/$IMAGE_NAME' | jq '.[0].name' -r)"
-
-echo "IMAGE_VHD: $IMAGE_VHD"
-echo "OS_IMAGE_SKU_VERSION: $OS_IMAGE_SKU_VERSION"
-
-sigil -f mainTemplate.tmpl VERSION="$NEW_VERSION" IMAGE_VHD="$IMAGE_VHD" OS_IMAGE_SKU_VERSION="$OS_IMAGE_SKU_VERSION" > mainTemplate.json;
+sigil -f mainTemplate.tmpl VERSION="$NEW_VERSION" MANAGED_IMAGE_ID="$MANAGED_IMAGE_ID" OS_IMAGE_SKU_VERSION= > mainTemplatePrivate.json;
+sigil -f mainTemplate.tmpl VERSION="$NEW_VERSION" MANAGED_IMAGE_ID="$MANAGED_IMAGE_ID" OS_IMAGE_SKU_VERSION="$OS_IMAGE_SKU_VERSION" > mainTemplate.json;
