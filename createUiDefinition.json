@@ -150,8 +150,7 @@
          "sshKey":"[basics('SSHCredntials').sshPublicKey]",
          "smartsense":"[basics('smartsense')]",
          "vmSize":"[steps('AdvancedConfig').controllerVmSize]",
-         "remoteLocation":"[steps('AdvancedConfig').remoteLocation]",
-         "cloudControllerOsDisk":"new"
+         "remoteLocation":"[steps('AdvancedConfig').remoteLocation]"
       }
    }
 }
