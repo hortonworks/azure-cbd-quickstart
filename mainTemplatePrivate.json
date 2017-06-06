@@ -76,7 +76,7 @@
   },
   "variables": {
     "newStorageAccountName": "[concat('cbdstorage', uniqueString(resourceGroup().id))]",
-    "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/1.15.0-rc.25/install-cbd.sh",
+    "fileUris": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/1.16.1-rc.1/install-cbd.sh",
     "commandToExecute": "./install-cbd.sh",
     "extensionName": "CustomScript",
     "scenarioPrefix": "cbdeployer",
@@ -257,7 +257,7 @@
               ]
             }
           },
-          "customData": "[base64(concat('#!/bin/bash\n','\necho \"export PUBLIC_IP=',reference(variables('publicIPAddressName')).dnsSettings.fqdn,'\" >> /tmp/.cbdprofile','\necho \"export CB_TRAEFIK_HOST_ADDRESS=',reference(variables('publicIPAddressName')).ipAddress,'\" >> /tmp/.cbdprofile','\necho \"export CBD_VERSION=1.15.0-rc.25\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_PW=',parameters('adminUserPassword'),'\" >> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile','\necho \"export OS_USER=',parameters('username'),'\" >> /tmp/.cbdprofile', '\necho \"export ULU_DEFAULT_SSH_KEY=',variables('singleQuote'),parameters('sshKey'),variables('singleQuote'),'\" >> /tmp/.cbdprofile', '\necho \"export CB_BLUEPRINT_DEFAULTS=',variables('singleQuote'),variables('defaultBlueprints'),variables('singleQuote'),'\" >> /tmp/.cbdprofile', '\necho \"export UAA_DEFAULT_SECRET=',base64(resourceGroup().id),'\" >> /tmp/.cbdprofile'))]"
+          "customData": "[base64(concat('#!/bin/bash\n','\necho \"export PUBLIC_IP=',reference(variables('publicIPAddressName')).dnsSettings.fqdn,'\" >> /tmp/.cbdprofile','\necho \"export CB_TRAEFIK_HOST_ADDRESS=',reference(variables('publicIPAddressName')).ipAddress,'\" >> /tmp/.cbdprofile','\necho \"export CBD_VERSION=1.16.1-rc.1\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_PW=',parameters('adminUserPassword'),'\" >> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile','\necho \"export OS_USER=',parameters('username'),'\" >> /tmp/.cbdprofile', '\necho \"export ULU_DEFAULT_SSH_KEY=',variables('singleQuote'),parameters('sshKey'),variables('singleQuote'),'\" >> /tmp/.cbdprofile', '\necho \"export CB_BLUEPRINT_DEFAULTS=',variables('singleQuote'),variables('defaultBlueprints'),variables('singleQuote'),'\" >> /tmp/.cbdprofile', '\necho \"export UAA_DEFAULT_SECRET=',base64(resourceGroup().id),'\" >> /tmp/.cbdprofile'))]"
         },
         "storageProfile": {
           
@@ -272,7 +272,7 @@
           }
           
           ,"imageReference": {
-            "id": "/subscriptions/947dafa0-8a1d-4ac9-909b-c71a0fa03ea6/resourceGroups/cbd-images/providers/Microsoft.Compute/images/1150-rc25"
+            "id": "/subscriptions/947dafa0-8a1d-4ac9-909b-c71a0fa03ea6/resourceGroups/cbd-images/providers/Microsoft.Compute/images/1161-rc1"
           }
           
         },
