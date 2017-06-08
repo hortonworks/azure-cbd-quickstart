@@ -9,8 +9,8 @@ For Azure we have an alternative approach:
 
 ## Deploy via Azure web UI
 
-Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsequenceiq%2Fazure-cbd-quickstart%2F2.0.0-rc.1%2FmainTemplate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
+Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsequenceiq%2Fazure-cbd-quickstart%2F1.16.1-rc.4%2FmainTemplate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
 
 ## Deploy via Azure web UI from managed image (works only from SequenceIQ account)
 
-Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsequenceiq%2Fazure-cbd-quickstart%2F2.0.0-rc.1%2FmainTemplatePrivate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
+Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsequenceiq%2Fazure-cbd-quickstart%2F1.16.1-rc.4%2FmainTemplatePrivate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
