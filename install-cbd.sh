@@ -37,6 +37,11 @@ install_cbd() {
     echo "export ULU_DEFAULT_SSH_KEY='$ULU_DEFAULT_SSH_KEY'" >> Profile
     echo "export CB_BLUEPRINT_DEFAULTS='$CB_BLUEPRINT_DEFAULTS'" >> Profile
     echo "export CB_INSTANCE_UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')" >> Profile
+    if [[ ! "$CB_SMARTSENSE_ID" && "$CB_SMARTSENSE_CONFIGURE" == true ]]; then
+      AZURE_SUBSCRIPTION_ID_NUMBER="$((0x$(sha1sum <<<"$AZURE_SUBSCRIPTION_ID")0))"
+      CB_SMARTSENSE_ID="A-9990${AZURE_SUBSCRIPTION_ID_NUMBER:1:4}-C-${AZURE_SUBSCRIPTION_ID_NUMBER:5:8}"
+    fi
+    echo "export CB_SMARTSENSE_ID=${CB_SMARTSENSE_ID}" >> Profile
 
     cbd generate
     cbd pull-parallel
