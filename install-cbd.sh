@@ -70,9 +70,15 @@ disable_dnsmasq() {
     systemctl disable dnsmasq.service
 }
 
+download_jq() {
+    curl -Lso /bin/jq https://github.com/stedolan/jq/releases/download/jq-1.4/jq-linux-x86_64
+    chmod +x /bin/jq
+}
+
 main() {
     disable_dnsmasq
     custom_data
+    download_jq
     #relocate_docker
     download_cbd
     set_perm
