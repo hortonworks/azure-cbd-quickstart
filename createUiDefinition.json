@@ -160,10 +160,10 @@
                 },
                 "toolTip": {
                   "virtualNetwork": "Please choose between creating a new Virtual Network or reusing an existing one!",
-                  "subnets": ""
+                  "subnets": "Please specify the subnet in which you want the deployment to be installed!"
                 },
                 "defaultValue": {
-                  "name": "vnet01",
+                  "name": "cbdeployerVnet",
                   "addressPrefixSize": "/16"
                 },
                 "constraints": {
@@ -176,7 +176,7 @@
                 "subnet1": {
                     "label": "Subnet",
                     "defaultValue": {
-                      "name": "subnet-1",
+                      "name": "cbdeployerSubnet",
                       "addressPrefixSize": "/24"
                     },
                     "constraints": {
@@ -192,6 +192,7 @@
          }
       ],
       "outputs":{
+         "location":"[location()]",
          "adminUsername":"[basics('adminUsername')]",
          "adminUserPassword":"[basics('adminUserPassword')]",
          "username":"[basics('vmUsername')]",
@@ -206,8 +207,7 @@
          "vnetName": "[steps('AdvancedConfig').vnetSelector.name]",
          "vnetRGName": "[steps('AdvancedConfig').vnetSelector.resourceGroup]",      
          "vnetSubnetName": "[steps('AdvancedConfig').vnetSelector.subnets.subnet1.name]",
-         "vnetSubnetAddressPrefix": "[steps('AdvancedConfig').vnetSelector.subnets.subnet1.addressPrefix]",
-         "vnetStartAddress": "[steps('AdvancedConfig').vnetSelector.subnets.subnet1.startAddress]"
+         "vnetSubnetAddressPrefix": "[steps('AdvancedConfig').vnetSelector.subnets.subnet1.addressPrefix]"
       }
    }
 }
