@@ -150,7 +150,44 @@
                      "regex":"^$|([a-zA-Z]{1}-[0-9]{8}-[a-zA-Z]{1}-[0-9]{8}$)",
                      "validationMessage":"Should be empty or a valid SmartSense subscription id like 'A-00000000-C-00000000'!"
                   }
-               }
+               },
+               {
+                "name": "vnetSelector",
+                "type": "Microsoft.Network.VirtualNetworkCombo",
+                "label": {
+                  "virtualNetwork": "Virtual network",
+                  "subnets": "Subnets"
+                },
+                "toolTip": {
+                  "virtualNetwork": "Please choose between creating a new Virtual Network or reusing an existing one!",
+                  "subnets": ""
+                },
+                "defaultValue": {
+                  "name": "vnet01",
+                  "addressPrefixSize": "/16"
+                },
+                "constraints": {
+                "minAddressPrefixSize": "/16"
+                },
+                "options": {
+                  "hideExisting": false
+                },
+                "subnets": {
+                "subnet1": {
+                    "label": "Subnet",
+                    "defaultValue": {
+                      "name": "subnet-1",
+                      "addressPrefixSize": "/24"
+                    },
+                    "constraints": {
+                      "minAddressPrefixSize": "/24",
+                      "minAddressCount": 12,
+                      "requireContiguousAddresses": true
+                    }
+                }
+                },
+                "visible": true
+                }          
             ]
          }
       ],
@@ -163,7 +200,14 @@
          "smartsense":"[steps('AdvancedConfig').smartsense]",
          "smartsenseId":"[steps('AdvancedConfig').smartsenseId]",
          "vmSize":"[steps('AdvancedConfig').controllerVmSize]",
-         "remoteLocation":"[steps('AdvancedConfig').remoteLocation]"
+         "remoteLocation":"[steps('AdvancedConfig').remoteLocation]",
+         "vnetNewOrExisting" : "[steps('AdvancedConfig').vnetSelector.newOrExisting]",
+         "vnetAddressPrefix" : "[steps('AdvancedConfig').vnetSelector.addressPrefix]",
+         "vnetName": "[steps('AdvancedConfig').vnetSelector.name]",
+         "vnetRGName": "[steps('AdvancedConfig').vnetSelector.resourceGroup]",      
+         "vnetSubnetName": "[steps('AdvancedConfig').vnetSelector.subnets.subnet1.name]",
+         "vnetSubnetAddressPrefix": "[steps('AdvancedConfig').vnetSelector.subnets.subnet1.addressPrefix]",
+         "vnetStartAddress": "[steps('AdvancedConfig').vnetSelector.subnets.subnet1.startAddress]"
       }
    }
 }

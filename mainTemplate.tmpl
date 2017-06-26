@@ -79,7 +79,35 @@
       "metadata": {
         "description": "SSH key for cloudbreak"
       }
-    }
+    },
+    "vnetNewOrExisting": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "vnetName": {
+        "type": "string",
+        "defaultValue": ""
+    },
+    "vnetSubnetName": {
+        "type": "string",
+        "defaultValue": ""
+    },
+    "vnetAddressPrefix": {
+        "type": "string",
+        "defaultValue": ""
+    },
+    "vnetSubnetAddressPrefix": {
+        "type": "string",
+        "defaultValue": ""
+    },
+    "vnetStartAddress": {
+        "type": "string",
+        "defaultValue": ""
+    },
+    "vnetRGName": {
+        "type": "string",
+        "defaultValue": ""
+    },
   },
   "variables": {
     "newStorageAccountName": "[concat('cbdstorage', uniqueString(resourceGroup().id))]",
