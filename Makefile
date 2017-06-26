@@ -1,8 +1,14 @@
 GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
-
+ifeq ($(GIT_BRANCH),master)
+	export CBD_VERSION=snapshot
+	export NEW_VERSION=master
+else
+	export CBD_VERSION=$NEW_VERSION
+endif
 
 echo_version:
 	$(info GIT_BRANCH=$(GIT_BRANCH))
+	$(info CBD_VERSION=$(CBD_VERSION))
 	$(info NEW_VERSION=$(NEW_VERSION))
 
 deps:
@@ -11,7 +17,7 @@ deps:
 
 build:
 	./create-template.sh
-	@sigil -f README.md.tmpl VERSION="$(NEW_VERSION)" > README.md
+	sigil -f README.md.tmpl VERSION="$(NEW_VERSION)" > README.md
 
 push:
 	if ! git diff --exit-code > /dev/null; then \
