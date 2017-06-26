@@ -16,7 +16,7 @@ build:
 push:
 	if ! git diff --exit-code > /dev/null; then \
 		git commit -am "update version to $(NEW_VERSION)"; \
-		git tag $(NEW_VERSION); \
+		git tag -f $(NEW_VERSION); \
 		git push origin $(NEW_VERSION); \
 		git push origin HEAD:$(GIT_BRANCH); \
 	fi
