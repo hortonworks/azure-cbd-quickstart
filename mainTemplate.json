@@ -121,7 +121,7 @@
       }
     },
     {
-      "apiVersion": "2017-05-01",
+      "apiVersion": "2017-06-01",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
       "location": "[resourceGroup().location]",
@@ -133,7 +133,7 @@
       }
     },
     {
-      "apiVersion": "2017-05-01",
+      "apiVersion": "2017-06-01",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
       "location": "[resourceGroup().location]",
@@ -154,7 +154,7 @@
       }
     },
     {
-      "apiVersion": "2017-05-01",
+      "apiVersion": "2017-06-01",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('securityGroupName')]",
       "location": "[resourceGroup().location]",
@@ -206,7 +206,7 @@
       }
     },
     {
-      "apiVersion": "2017-05-01",
+      "apiVersion": "2017-06-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
       "location": "[resourceGroup().location]",
@@ -305,7 +305,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'),'/installcustomscript')]",
-      "apiVersion": "2017-05-01",
+      "apiVersion": "2016-04-30-preview",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
