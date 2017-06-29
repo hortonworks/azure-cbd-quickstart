@@ -140,13 +140,15 @@
   },
   "variables": {
     "version":{
-      "templateAPIVersion":"2017-05-10", /* this is used when referencing nested template */
-      "resourceAPIVersion":"2017-06-01", /* this is used for each resource */
-      "typeHandlerVersion":"2.0", /* this is used in custom script extension */
-      "contentVersion":"1.0.0.0" /* this is used at the beginning of nested templates which should match the caller section in the main template */
+      "templateAPIVersion":"2015-11-01",
+      "computeAPIVersion":"2017-03-30",
+      "networkAPIVersion":"2017-06-01",
+      "storageAPIVersion":"2017-06-01",
+      "typeHandlerVersion":"2.0",
+      "contentVersion":"1.0.0.0"
     },
     "newStorageAccountName": "[concat('cbdstorage', uniqueString(resourceGroup().id))]",
-    "fileUris": "[concat(parameters('baseUrl'),'install-cbd.sh')]",
+    "fileUris": "[concat(parameters('baseUrl'),'/install-cbd.sh')]",
     "commandToExecute": "./install-cbd.sh",
     "scenarioPrefix": "cbdeployer",
     "imagePublisher": "hortonworks",
@@ -171,7 +173,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('newStorageAccountName')]",
-      "apiVersion": "2016-12-01",
+      "apiVersion": "[variables('version').storageAPIVersion]",
       "location": "[parameters('location')]",
       "kind": "Storage",
       "sku": {
@@ -179,7 +181,7 @@
       }
     },
     {
-      "apiVersion": "2017-06-01",
+      "apiVersion": "[variables('version').networkAPIVersion]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
       "location": "[parameters('location')]",
@@ -193,7 +195,7 @@
     {
         "name": "[variables('virtualNetworkName')]",
         "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2016-02-01",
+        "apiVersion": "[variables('version').templateAPIVersion]",
         "properties": {
             "mode": "Incremental",
             "templateLink": {
@@ -220,7 +222,7 @@
         }
     },
     {
-      "apiVersion": "2017-06-01",
+      "apiVersion": "[variables('version').networkAPIVersion]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('securityGroupName')]",
       "location": "[parameters('location')]",
@@ -272,7 +274,7 @@
       }
     },
     {
-      "apiVersion": "2017-06-01",
+      "apiVersion": "[variables('version').networkAPIVersion]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
       "location": "[parameters('location')]",
@@ -302,7 +304,7 @@
       }
     },
     {
-      "apiVersion": "2016-04-30-preview",
+      "apiVersion": "[variables('version').computeAPIVersion]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('vmName')]",
       "location": "[parameters('location')]",
@@ -377,7 +379,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'),'/installcustomscript')]",
-      "apiVersion": "2016-04-30-preview",
+      "apiVersion": "[variables('version').computeAPIVersion]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
