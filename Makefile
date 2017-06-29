@@ -3,7 +3,7 @@ ifeq ($(GIT_BRANCH),master)
 	export CBD_VERSION=snapshot
 	export NEW_VERSION=master
 else
-	export CBD_VERSION=$NEW_VERSION
+	export CBD_VERSION=$(NEW_VERSION)
 endif
 
 echo_version:
