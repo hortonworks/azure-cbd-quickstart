@@ -35,4 +35,10 @@ build-as-snapshot:
 	make build
 	git tag snapshot -d
 
-.PHONY: build
+package:
+	rm -rf package
+	mkdir package
+	zip package/ver ./* -x *.tmpl -x *Private* -x package/
+	unzip -lv ./package/ver.zip
+
+.PHONY: build package
