@@ -152,7 +152,7 @@
     "commandToExecute": "./install-cbd.sh",
     "scenarioPrefix": "cbdeployer",
     "imagePublisher": "hortonworks",
-    "imageOffer": "cloudbreak-for-hortonworks-data-platform-preview",
+    "imageOffer": "cloudbreak-for-hortonworks-data-platform",
     "imageSku": "cloudbreak-for-hortonworks-data-platform",
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
     "osDiskUri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
