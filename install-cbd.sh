@@ -123,6 +123,18 @@ relocate_docker() {
     service docker start
 }
 
+move_docker_bridge_subnet() {
+  if [[ $SUBNET_CIDR =~ ^172\.17\..*$ ]]; then
+    debug "Docker0 bridge cidr will be changed.."
+    cat <<- EOF >> /etc/docker/daemon.json
+{
+  "bip": "172.27.0.1/24"
+}
+EOF
+    service docker restart
+  fi
+}
+
 disable_dnsmasq() {
     systemctl stop dnsmasq
     systemctl disable dnsmasq.service
@@ -132,6 +144,7 @@ main() {
     disable_dnsmasq
     custom_data
     #relocate_docker
+    move_docker_bridge_subnet
     download_cbd
     set_perm
     export -f install_cbd
