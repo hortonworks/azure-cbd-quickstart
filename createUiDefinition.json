@@ -108,7 +108,7 @@
                   "osPlatform":"Linux",
                   "imageReference": {
                       "publisher": "Hortonworks",
-                      "offer": "cloudbreak-for-hortonworks-data-platform-preview",
+                      "offer": "cloudbreak-for-hortonworks-data-platform",
                       "sku": "cloudbreak-for-hortonworks-data-platform"
                   },
                   "count":1
@@ -116,12 +116,12 @@
                {
                   "name":"remoteLocation",
                   "type":"Microsoft.Common.TextBox",
-                  "label":"Allow connections to the cloud controller from this address range or default tag (e.g. INTERNET).",
+                  "label":"Allow connections to the cloud controller from this address range or default tag (e.g. Internet).",
                   "toolTip": "Must be a valid CIDR IP or [default tag](https://tinyurl.com/nsg-default-tags). E.g. 10.0.0.0/24 will allow access from 10.0.0.0 through 10.0.0.255.",
                   "defaultValue":"",
                   "constraints":{
                      "required":true,
-                     "regex":"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$|^INTERNET$|^AZURE_LOADBALANCER$|^VIRTUAL_NETWORK$",
+                     "regex":"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$|^Internet$|^AzureLoadBalancer$|^VirtualNetwork$",
                      "validationMessage":"Must be a single IP address or an IP address range in CIDR notation (More information [here](https://tinyurl.com/nsg-default-tags))."
                   }
                },
@@ -144,7 +144,7 @@
                   ]
                  }
                },
-               {              
+               {
                   "name":"smartsenseId",
                   "type":"Microsoft.Common.TextBox",
                   "label":"Enter your existing SmartSenseID (if available). You must also opt-in to SmartSense telemetry above",
@@ -192,7 +192,7 @@
                 }
                 },
                 "visible": true
-                }          
+                }
             ]
          }
       ],
@@ -210,7 +210,7 @@
          "vnetNewOrExisting" : "[steps('AdvancedConfig').vnetSelector.newOrExisting]",
          "vnetAddressPrefix" : "[steps('AdvancedConfig').vnetSelector.addressPrefix]",
          "vnetName": "[steps('AdvancedConfig').vnetSelector.name]",
-         "vnetRGName": "[steps('AdvancedConfig').vnetSelector.resourceGroup]",      
+         "vnetRGName": "[steps('AdvancedConfig').vnetSelector.resourceGroup]",
          "vnetSubnetName": "[steps('AdvancedConfig').vnetSelector.subnets.subnet1.name]",
          "vnetSubnetAddressPrefix": "[steps('AdvancedConfig').vnetSelector.subnets.subnet1.addressPrefix]"
       }

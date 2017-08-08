@@ -91,13 +91,17 @@ cbd_start_wait() {
     declare desc="waiting for Cloudbreak"
     debug $desc
 
-    for t in $(seq 1 1 ${RETRY_START_COUNT:=10}); do
+    for t in $(seq 1 1 ${RETRY_START_COUNT:=5}); do
         debug "tries: $t"
         cbd start-wait && break
         service docker restart
         wait_for_docker
         cbd kill
         sleep ${RETRY_START_SLEEP:=5}
+        if [[ t -eq ${RETRY_START_COUNT} ]]; then
+          debug "Exiting due to exceeded retries.."
+          exit 1
+        fi
     done
 }
 
