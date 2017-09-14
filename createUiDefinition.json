@@ -145,18 +145,6 @@
                  }
                },
                {
-                  "name":"smartsenseId",
-                  "type":"Microsoft.Common.TextBox",
-                  "label":"Enter your existing SmartSenseID (if available). You must also opt-in to SmartSense telemetry above",
-                  "toolTip": "This ID is required to enable support for Flex Subscriptions. Learn more [here](http://tinyurl.com/hdcloud-1-16-0-flex-1).",
-                  "defaultValue":"",
-                  "constraints":{
-                     "required":false,
-                     "regex":"^$|([a-zA-Z]{1}-[0-9]{8}-[a-zA-Z]{1}-[0-9]{8}$)",
-                     "validationMessage":"Should be empty or a valid SmartSense subscription id like 'A-00000000-C-00000000'!"
-                  }
-               },
-               {
                 "name": "vnetSelector",
                 "type": "Microsoft.Network.VirtualNetworkCombo",
                 "label": {
@@ -204,7 +192,6 @@
          "password":"[basics('SSHCredntials').password]",
          "sshKey":"[basics('SSHCredntials').sshPublicKey]",
          "smartsense":"[steps('AdvancedConfig').smartsense]",
-         "smartsenseId":"[steps('AdvancedConfig').smartsenseId]",
          "vmSize":"[steps('AdvancedConfig').controllerVmSize]",
          "remoteLocation":"[steps('AdvancedConfig').remoteLocation]",
          "vnetNewOrExisting" : "[steps('AdvancedConfig').vnetSelector.newOrExisting]",
