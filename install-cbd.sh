@@ -150,13 +150,13 @@ main() {
     #relocate_docker
     move_docker_bridge_subnet
     download_cbd
-    set_perm
     export -f install_cbd
     export -f debug
     export -f escape-string
     export -f cbd_start_wait
     export -f wait_for_docker
-    su $OS_USER -c "install_cbd"
+    install_cbd
+    set_perm
 }
 
 [[ "$0" == "$BASH_SOURCE" ]] && main "$@" || true
