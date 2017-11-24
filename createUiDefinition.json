@@ -43,7 +43,7 @@
             }
          },
          {
-            "name":"SSHCredntials",
+            "name":"SSHCredentials",
             "type":"Microsoft.Compute.CredentialsCombo",
             "label":{
                "authenticationType":"Authentication type",
@@ -130,7 +130,7 @@
                   "type":"Microsoft.Common.OptionsGroup",
                   "label":"Enable SmartSense?",
                   "defaultValue":"I have read and opt in to SmartSense telemetry.",
-                  "toolTip":"By Opting-In, you read and agree to the SmartSense [terms](http://tinyurl.com/hdcloud-1-8-0-smartsense-1)",
+                  "toolTip":"By Opting-In, you read and agree to the SmartSense [terms](https://hortonworks.github.io/cloudbreak-azure-docs/assets/cloudbreak-azure-marketplace-smartsense-2017-09-06.html)",
                   "constraints":{
                   "allowedValues":[
                     {
@@ -188,9 +188,8 @@
          "location":"[location()]",
          "adminUsername":"[basics('adminUsername')]",
          "adminUserPassword":"[basics('adminUserPassword')]",
-         "username":"[basics('vmUsername')]",
-         "password":"[basics('SSHCredntials').password]",
-         "sshKey":"[basics('SSHCredntials').sshPublicKey]",
+         "username":"[basics('vmUsername')]",         
+         "sshKey":"[basics('SSHCredentials').sshPublicKey]",
          "smartsense":"[steps('AdvancedConfig').smartsense]",
          "vmSize":"[steps('AdvancedConfig').controllerVmSize]",
          "remoteLocation":"[steps('AdvancedConfig').remoteLocation]",

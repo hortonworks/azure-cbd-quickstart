@@ -39,7 +39,7 @@ build-as-snapshot:
 package:
 	rm -rf package
 	mkdir package
-	zip package/ver ./* -x *.tmpl -x *Private* -x package/
+	zip package/ver createUiDefinition.json install-cbd.sh mainTemplate.json vnet_existing.json vnet_new.json
 	unzip -lv ./package/ver.zip
 
 .PHONY: build package
