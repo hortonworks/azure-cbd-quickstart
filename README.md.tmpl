@@ -7,10 +7,10 @@ For Azure we have an alternative approach:
 - use [Docker VM Extension](https://github.com/Azure/azure-docker-extension) to install Docker
 - use [CustomScript Extension](https://github.com/Azure/azure-linux-extensions/tree/master/CustomScript) to install Cloudbreak Deployer (cbd)
 
-## Deploy via Azure web UI
+## Deploy master via Azure web UI
+
+Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhortonworks%2Fazure-cbd-quickstart%2Fmaster%2FmainTemplate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
+
+## Deploy {{$VERSION}} via Azure web UI
 
 Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsequenceiq%2Fazure-cbd-quickstart%2F{{$VERSION}}%2FmainTemplate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
-
-## Deploy via Azure web UI from managed image (works only from SequenceIQ account)
-
-Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsequenceiq%2Fazure-cbd-quickstart%2F{{$VERSION}}%2FmainTemplatePrivate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
