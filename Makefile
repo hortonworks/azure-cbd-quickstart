@@ -17,7 +17,9 @@ deps:
 
 build:
 	./create-template.sh
+ifneq ($(GIT_BRANCH),master)
 	sigil -f README.md.tmpl VERSION="$(NEW_VERSION)" > README.md
+endif
 
 push:
 	if ! git diff --exit-code > /dev/null; then \

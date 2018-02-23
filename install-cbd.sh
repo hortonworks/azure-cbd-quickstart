@@ -36,7 +36,6 @@ install_cbd() {
     echo "export CB_SMARTSENSE_CONFIGURE=$CB_SMARTSENSE_CONFIGURE" >> Profile
     echo "export CB_ENABLEDPLATFORMS=AZURE" >> Profile
     echo "export ULU_DEFAULT_SSH_KEY='$ULU_DEFAULT_SSH_KEY'" >> Profile
-    echo "export CB_BLUEPRINT_DEFAULTS='$CB_BLUEPRINT_DEFAULTS'" >> Profile
     echo "export CB_INSTANCE_UUID=$(uuidgen | tr '[:upper:]' '[:lower:]')" >> Profile
     echo "export CB_HOST_ADDRESS=http://localhost:8080" >> Profile
     echo "export ULU_SUBSCRIBE_TO_NOTIFICATIONS=false" >> Profile
