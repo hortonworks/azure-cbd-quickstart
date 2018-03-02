@@ -6,11 +6,30 @@ set -x
 : ${CBD_VERSION:="snapshot"}
 : ${CBD_DIR:="/var/lib/cloudbreak-deployment"}
 
+init() {
+    setenforce 0
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+    yum clean all
+    yum update -y
+    yum install -y docker bash-completion-extras iptables-services net-tools
+    curl http://stedolan.github.io/jq/download/linux64/jq -o /bin/jq && chmod a+x /bin/jq
+    sed -i 's/--selinux-enabled//g' /etc/sysconfig/docker
+    sed -i 's/--log-driver=journald//g' /etc/sysconfig/docker
+    systemctl enable docker
+    getent passwd $OS_USER || adduser $OS_USER
+    groupadd docker
+    usermod -a -G docker $OS_USER
+    service docker start
+    iptables --flush INPUT && \
+    iptables --flush FORWARD && \
+    service iptables save
+}
+
 custom_data() {
     set -o allexport
     source /tmp/.cbdprofile
     set +o allexport
-    rm /tmp/.cbdprofile
+    #rm /tmp/.cbdprofile
 }
 
 download_cbd() {
@@ -112,18 +131,8 @@ wait_for_docker() {
 }
 
 set_perm() {
-    usermod -aG docker ${OS_USER}
     chown -R $OS_USER:$OS_USER $CBD_DIR
-    chown -R $OS_USER:$OS_USER /var/lib/cloudbreak/
     whoami
-}
-
-relocate_docker() {
-    service docker stop
-    rm -rf /var/lib/docker/
-    mkdir /mnt/resource/docker
-    ln -s /mnt/resource/docker /var/lib/docker
-    service docker start
 }
 
 move_docker_bridge_subnet() {
@@ -144,10 +153,10 @@ disable_dnsmasq() {
 }
 
 main() {
-    disable_dnsmasq
+    #disable_dnsmasq
     custom_data
-    #relocate_docker
-    move_docker_bridge_subnet
+    init
+    #move_docker_bridge_subnet
     download_cbd
     set_perm
     export -f install_cbd

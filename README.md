@@ -14,3 +14,7 @@ Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/htt
 ## Deploy 2.4.0 via Azure web UI
 
 Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhortonworks%2Fazure-cbd-quickstart%2F2.4.0%2FmainTemplate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>
+
+## Deploy 2.4.0 via Azure web UI
+
+Click here: <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhortonworks%2Fazure-cbd-quickstart%2Fstart-from-centos%2FmainTemplate.json">  ![deploy on azure](http://azuredeploy.net/deploybutton.png) </a>

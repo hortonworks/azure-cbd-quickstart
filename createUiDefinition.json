@@ -43,7 +43,7 @@
             }
          },
          {
-            "name":"SSHCredntials",
+            "name":"SSHCredentials",
             "type":"Microsoft.Compute.CredentialsCombo",
             "label":{
                "authenticationType":"Authentication type",
@@ -108,7 +108,7 @@
                   "osPlatform":"Linux",
                   "imageReference": {
                       "publisher": "Hortonworks",
-                      "offer": "cloudbreak-for-hortonworks-data-platform",
+                      "offer": "cloudbreak-for-hortonworks-data-platform-preview",
                       "sku": "cloudbreak-for-hortonworks-data-platform"
                   },
                   "count":1
@@ -130,7 +130,7 @@
                   "type":"Microsoft.Common.OptionsGroup",
                   "label":"Enable SmartSense?",
                   "defaultValue":"I have read and opt in to SmartSense telemetry.",
-                  "toolTip":"By Opting-In, you read and agree to the SmartSense [terms](http://tinyurl.com/hdcloud-1-8-0-smartsense-1)",
+                  "toolTip":"By Opting-In, you read and agree to the SmartSense [terms](https://hortonworks.github.io/cloudbreak-azure-docs/assets/cloudbreak-azure-marketplace-smartsense-2017-09-06.html)",
                   "constraints":{
                   "allowedValues":[
                     {
@@ -143,18 +143,6 @@
                     }
                   ]
                  }
-               },
-               {
-                  "name":"smartsenseId",
-                  "type":"Microsoft.Common.TextBox",
-                  "label":"Enter your existing SmartSenseID (if available). You must also opt-in to SmartSense telemetry above",
-                  "toolTip": "This ID is required to enable support for Flex Subscriptions. Learn more [here](http://tinyurl.com/hdcloud-1-16-0-flex-1).",
-                  "defaultValue":"",
-                  "constraints":{
-                     "required":false,
-                     "regex":"^$|([a-zA-Z]{1}-[0-9]{8}-[a-zA-Z]{1}-[0-9]{8}$)",
-                     "validationMessage":"Should be empty or a valid SmartSense subscription id like 'A-00000000-C-00000000'!"
-                  }
                },
                {
                 "name": "vnetSelector",
@@ -201,10 +189,8 @@
          "adminUsername":"[basics('adminUsername')]",
          "adminUserPassword":"[basics('adminUserPassword')]",
          "username":"[basics('vmUsername')]",
-         "password":"[basics('SSHCredntials').password]",
-         "sshKey":"[basics('SSHCredntials').sshPublicKey]",
+         "sshKey":"[basics('SSHCredentials').sshPublicKey]",
          "smartsense":"[steps('AdvancedConfig').smartsense]",
-         "smartsenseId":"[steps('AdvancedConfig').smartsenseId]",
          "vmSize":"[steps('AdvancedConfig').controllerVmSize]",
          "remoteLocation":"[steps('AdvancedConfig').remoteLocation]",
          "vnetNewOrExisting" : "[steps('AdvancedConfig').vnetSelector.newOrExisting]",
