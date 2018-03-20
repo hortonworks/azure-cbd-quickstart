@@ -11,8 +11,13 @@ init() {
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
     yum clean all
     yum update -y
-    yum install -y docker bash-completion-extras iptables-services net-tools
-    curl http://stedolan.github.io/jq/download/linux64/jq -o /bin/jq && chmod a+x /bin/jq
+    yum install -y epel-release
+    yum install -y docker bash-completion-extras iptables-services net-tools jq
+    systemctl stop firewalld
+    systemctl disable firewalld
+    iptables --flush INPUT && \
+    iptables --flush FORWARD && \
+    service iptables save
     sed -i 's/--selinux-enabled//g' /etc/sysconfig/docker
     sed -i 's/--log-driver=journald//g' /etc/sysconfig/docker
     systemctl enable docker
@@ -20,16 +25,13 @@ init() {
     groupadd docker
     usermod -a -G docker $OS_USER
     service docker start
-    iptables --flush INPUT && \
-    iptables --flush FORWARD && \
-    service iptables save
 }
 
 custom_data() {
     set -o allexport
     source /tmp/.cbdprofile
     set +o allexport
-    #rm /tmp/.cbdprofile
+    rm /tmp/.cbdprofile
 }
 
 download_cbd() {
@@ -135,28 +137,9 @@ set_perm() {
     whoami
 }
 
-move_docker_bridge_subnet() {
-  if [[ $SUBNET_CIDR =~ ^172\.17\..*$ ]]; then
-    debug "Docker0 bridge cidr will be changed.."
-    cat <<- EOF >> /etc/docker/daemon.json
-{
-  "bip": "172.27.0.1/24"
-}
-EOF
-    service docker restart
-  fi
-}
-
-disable_dnsmasq() {
-    systemctl stop dnsmasq
-    systemctl disable dnsmasq.service
-}
-
 main() {
-    #disable_dnsmasq
     custom_data
     init
-    #move_docker_bridge_subnet
     download_cbd
     set_perm
     export -f install_cbd

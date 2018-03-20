@@ -149,7 +149,6 @@
     "imageOffer": "CentOS",
     "imageSku": "7-CI",
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
-    "osDiskUri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
     "osDiskCreateOption": "FromImage",
     "nicName": "[concat(variables('scenarioPrefix'),'Nic')]",
     "sshKeyPath": "[concat('/home/',parameters('username'),'/.ssh/authorized_keys')]",
@@ -339,7 +338,7 @@
           
           
             "vhd": {
-              "uri": "[variables('osDiskUri')]"
+              "uri": "[concat(reference(variables('newStorageAccountName')).primaryEndpoints.blob, variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
             },
           
             "caching": "ReadWrite",
