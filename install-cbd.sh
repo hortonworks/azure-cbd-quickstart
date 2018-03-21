@@ -6,6 +6,27 @@ set -x
 : ${CBD_VERSION:="snapshot"}
 : ${CBD_DIR:="/var/lib/cloudbreak-deployment"}
 
+init() {
+    setenforce 0
+    sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+    yum clean all
+    yum update -y
+    yum install -y epel-release
+    yum install -y docker bash-completion-extras iptables-services net-tools jq
+    systemctl stop firewalld
+    systemctl disable firewalld
+    iptables --flush INPUT && \
+    iptables --flush FORWARD && \
+    service iptables save
+    sed -i 's/--selinux-enabled//g' /etc/sysconfig/docker
+    sed -i 's/--log-driver=journald//g' /etc/sysconfig/docker
+    systemctl enable docker
+    getent passwd $OS_USER || adduser $OS_USER
+    groupadd docker
+    usermod -a -G docker $OS_USER
+    service docker start
+}
+
 custom_data() {
     set -o allexport
     source /tmp/.cbdprofile
@@ -112,42 +133,13 @@ wait_for_docker() {
 }
 
 set_perm() {
-    usermod -aG docker ${OS_USER}
     chown -R $OS_USER:$OS_USER $CBD_DIR
-    chown -R $OS_USER:$OS_USER /var/lib/cloudbreak/
     whoami
 }
 
-relocate_docker() {
-    service docker stop
-    rm -rf /var/lib/docker/
-    mkdir /mnt/resource/docker
-    ln -s /mnt/resource/docker /var/lib/docker
-    service docker start
-}
-
-move_docker_bridge_subnet() {
-  if [[ $SUBNET_CIDR =~ ^172\.17\..*$ ]]; then
-    debug "Docker0 bridge cidr will be changed.."
-    cat <<- EOF >> /etc/docker/daemon.json
-{
-  "bip": "172.27.0.1/24"
-}
-EOF
-    service docker restart
-  fi
-}
-
-disable_dnsmasq() {
-    systemctl stop dnsmasq
-    systemctl disable dnsmasq.service
-}
-
 main() {
-    disable_dnsmasq
     custom_data
-    #relocate_docker
-    move_docker_bridge_subnet
+    init
     download_cbd
     set_perm
     export -f install_cbd

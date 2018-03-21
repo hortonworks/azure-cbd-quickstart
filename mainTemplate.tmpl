@@ -8,7 +8,7 @@
          "description": "The base URL for dependent assets",
          "artifactsBaseUrl": ""
      },
-    "defaultValue": "https://raw.githubusercontent.com/sequenceiq/azure-cbd-quickstart/{{$VERSION}}/"
+    "defaultValue": "https://raw.githubusercontent.com/hortonworks/azure-cbd-quickstart/{{$VERSION}}/"
     },
     "location": {
     "type": "string",
@@ -72,13 +72,6 @@
       ],
       "metadata": {
         "description": "By Opting-In, you read and agree to the SmartSense terms."
-      }
-    },
-    "smartsenseId": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "Enter your existing SmartSenseID (if available). You must also opt-in to SmartSense telemetry above."
       }
     },
     "remoteLocation": {
@@ -152,11 +145,10 @@
     "fileUris": "[concat(parameters('baseUrl'),'/install-cbd.sh')]",
     "commandToExecute": "./install-cbd.sh",
     "scenarioPrefix": "cbdeployer",
-    "imagePublisher": "hortonworks",
-    "imageOffer": "cloudbreak-for-hortonworks-data-platform",
-    "imageSku": "cloudbreak-for-hortonworks-data-platform",
+    "imagePublisher": "OpenLogic",
+    "imageOffer": "CentOS",
+    "imageSku": "7-CI",
     "osDiskName": "[concat(variables('scenarioPrefix'),'OSDisk')]",
-    "osDiskUri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]",
     "osDiskCreateOption": "FromImage",
     "nicName": "[concat(variables('scenarioPrefix'),'Nic')]",
     "sshKeyPath": "[concat('/home/',parameters('username'),'/.ssh/authorized_keys')]",
@@ -312,13 +304,6 @@
         "[concat('Microsoft.Storage/storageAccounts/', variables('newStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
-      {{if ne $OS_IMAGE_SKU_VERSION ""}}
-      "plan": {
-        "name": "[variables('imageSku')]",
-        "product": "[variables('imageOffer')]",
-        "publisher": "[variables('imagePublisher')]"
-      },
-      {{end}}
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
@@ -337,7 +322,7 @@
               ]
             }
           },
-          "customData": "[base64(concat('#!/bin/bash\n','\necho \"export PUBLIC_IP=',reference(variables('publicIPAddressName')).dnsSettings.fqdn,'\" >> /tmp/.cbdprofile','\necho \"export CB_TRAEFIK_HOST_ADDRESS=',reference(variables('publicIPAddressName')).ipAddress,'\" >> /tmp/.cbdprofile','\necho \"export CBD_VERSION={{$CBD_VERSION}}\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho $',variables('singleQuote'), 'export UAA_DEFAULT_USER_PW=$\\',variables('singleQuote'),parameters('adminUserPassword'),'\\', variables('singleQuote'),variables('singleQuote'), '>> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_ID=',parameters('smartsenseId'),'\" >> /tmp/.cbdprofile','\necho \"export OS_USER=',parameters('username'),'\" >> /tmp/.cbdprofile', '\necho \"export ULU_DEFAULT_SSH_KEY=',variables('singleQuote'),parameters('sshKey'),variables('singleQuote'),'\" >> /tmp/.cbdprofile', '\necho \"export SUBNET_CIDR=',parameters('vnetSubnetAddressPrefix'),'\" >> /tmp/.cbdprofile', '\necho \"export UAA_DEFAULT_SECRET=',base64(resourceGroup().id),'\" >> /tmp/.cbdprofile'))]"
+          "customData": "[base64(concat('#!/bin/bash\n','\necho \"export PUBLIC_IP=',reference(variables('publicIPAddressName')).dnsSettings.fqdn,'\" >> /tmp/.cbdprofile','\necho \"export CB_TRAEFIK_HOST_ADDRESS=',reference(variables('publicIPAddressName')).ipAddress,'\" >> /tmp/.cbdprofile','\necho \"export CBD_VERSION={{$CBD_VERSION}}\" >> /tmp/.cbdprofile','\necho \"export AZURE_SUBSCRIPTION_ID=',subscription().subscriptionId,'\" >> /tmp/.cbdprofile','\necho \"export AZURE_TENANT_ID=',subscription().tenantId,'\" >> /tmp/.cbdprofile','\necho \"export UAA_DEFAULT_USER_EMAIL=',parameters('adminUsername'),'\" >> /tmp/.cbdprofile','\necho $',variables('singleQuote'), 'export UAA_DEFAULT_USER_PW=$\\',variables('singleQuote'),parameters('adminUserPassword'),'\\', variables('singleQuote'),variables('singleQuote'), '>> /tmp/.cbdprofile','\necho \"export CB_SMARTSENSE_CONFIGURE=',parameters('smartsense'),'\" >> /tmp/.cbdprofile','\necho \"export OS_USER=',parameters('username'),'\" >> /tmp/.cbdprofile', '\necho \"export ULU_DEFAULT_SSH_KEY=',variables('singleQuote'),parameters('sshKey'),variables('singleQuote'),'\" >> /tmp/.cbdprofile', '\necho \"export SUBNET_CIDR=',parameters('vnetSubnetAddressPrefix'),'\" >> /tmp/.cbdprofile', '\necho \"export UAA_DEFAULT_SECRET=',base64(resourceGroup().id),'\" >> /tmp/.cbdprofile'))]"
         },
         "storageProfile": {
           {{if ne $OS_IMAGE_SKU_VERSION ""}}
@@ -355,7 +340,7 @@
           {{end}}
           {{if ne $OS_IMAGE_SKU_VERSION ""}}
             "vhd": {
-              "uri": "[variables('osDiskUri')]"
+              "uri": "[concat(reference(variables('newStorageAccountName')).primaryEndpoints.blob, variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
             },
           {{end}}
             "caching": "ReadWrite",
